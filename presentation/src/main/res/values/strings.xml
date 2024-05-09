@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="back_arrow">Back Arrow</string>
+    <string name="characters_list_screen">Characters List</string>
+    <string name="character_details">Characters Details</string>
+    <string name="character_avatar">Character Avatar</string>
+    <string name="something_went_wrong">Something went wrong!</string>
+    <string name="avatar">Avatar</string>
+    <string name="films">Films : %1$s</string>
+    <string name="createdAt">Created : %1$s</string>
+    <string name="updatedAt">Updated : %1$s</string>
+    <string name="name">Name : %1$s</string>
+
+</resources>

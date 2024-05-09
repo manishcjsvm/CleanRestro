@@ -1,0 +1,98 @@
+[versions]
+compileSDK = "34"
+minSDK = "24"
+targetSDK = "34"
+versionCode = "1"
+versionName = "1.0"
+agp = "8.4.0"
+kotlin = "1.9.0"
+junit = "4.13.2"
+lifecycleRuntimeKtx = "2.7.0"
+activityCompose = "1.9.0"
+composeBom = "2024.05.00"
+appcompat = "1.6.1"
+material = "1.12.0"
+kspVersion = "1.9.23-1.0.20"
+jvmVersion = "1.9.23"
+hiltAndroid = "2.50"
+retrofit = "2.11.0"
+okHttpClient = "4.9.2"
+composeVersion = "1.6.7"
+coroutinesVersion = "1.7.3"
+navigationFragmentKtxVersion = "2.7.7"
+hiltNavigationCompose = "1.2.0"
+gsonVersion = "2.10.1"
+coilVersion = "2.5.0"
+mockKVersion = "1.13.10"
+coroutinesTestVersion = "1.7.3"
+turbineVersion = "1.0.0"
+
+
+#--------------------Libraries---------------------
+[libraries]
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+
+# Compose libraries
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "composeVersion" }
+
+# Extension for Navigation
+androidx-navigation = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtxVersion" }
+
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+
+# Android Material3 components.
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+
+# Hilt
+
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hiltAndroid" }
+hilt-android-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hiltAndroid" }
+hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+
+# Retrofit
+retofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+gson-converter = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okHttpClient" }
+
+# Coroutines
+kotlin-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutinesVersion" }
+
+# Gson
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gsonVersion" }
+
+# Coil
+coil = { group = "io.coil-kt", name = "coil", version.ref = "coilVersion" }
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coilVersion" }
+
+# Mockk
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockKVersion" }
+coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutinesTestVersion" }
+
+# Turbine
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbineVersion" }
+
+
+#------------------Plugins-----------------
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jvmVersion" }
+
+# Hilt
+android-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
+
+# For annotation processing
+kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
