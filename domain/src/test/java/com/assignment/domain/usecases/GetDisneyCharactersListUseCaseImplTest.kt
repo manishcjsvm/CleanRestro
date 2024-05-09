@@ -40,7 +40,7 @@ class GetDisneyCharactersListUseCaseImplTest {
             )
 
             //ACT
-            val result = disneyRepository.getDisneyCharactersList()
+            val result = getDisneyCharactersListUseCaseImpl()
 
             //ASSERT
             assertTrue(result is APIResult.Success)
@@ -61,7 +61,7 @@ class GetDisneyCharactersListUseCaseImplTest {
             )
 
             //ACT
-            val result = disneyRepository.getDisneyCharactersList()
+            val result = getDisneyCharactersListUseCaseImpl()
 
             //ASSERT
             assertTrue(result is APIResult.Error)
