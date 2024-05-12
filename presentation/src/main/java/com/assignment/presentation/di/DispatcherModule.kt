@@ -12,27 +12,9 @@ import kotlinx.coroutines.Dispatchers
 class DispatcherModule {
 
     @Provides
-    @MainDispatcher
-    fun provideMainDispatcher(): CoroutineDispatcher {
-        return Dispatchers.Main
-    }
-
-    @Provides
     @IODispatcher
     fun provideIODispatcher(): CoroutineDispatcher {
         return Dispatchers.IO
     }
 
-    @Provides
-    @DefaultDispatcher
-    fun provideDefaultDispatcher(): CoroutineDispatcher {
-        return Dispatchers.Default
-    }
-
-
-    @Provides
-    @UnconfinedDispatcher
-    fun provideUnconfinedDispatcher(): CoroutineDispatcher {
-        return Dispatchers.Unconfined
-    }
 }

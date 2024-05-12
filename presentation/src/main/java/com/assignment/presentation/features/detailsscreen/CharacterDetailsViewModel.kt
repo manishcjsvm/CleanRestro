@@ -2,14 +2,15 @@ package com.assignment.presentation.features.detailsscreen
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.assignment.common.APIResult
+import com.assignment.domain.APIResult
 import com.assignment.domain.usecases.GetDisneyCharacterDetailsUseCase
 import com.assignment.presentation.base.BaseViewModel
-import com.assignment.presentation.constants.Constants
 import com.assignment.presentation.di.IODispatcher
 import com.assignment.presentation.mappers.CharacterMapper
+import com.assignment.presentation.navigation.NavRoutes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,12 +29,12 @@ class CharacterDetailsViewModel @Inject constructor(
     private val getDisneyCharacterDetailsUseCase: GetDisneyCharacterDetailsUseCase,
     private val mapper: CharacterMapper,
     @IODispatcher private val ioDispatcher: CoroutineDispatcher
-) : BaseViewModel<CharacterDetailsViewState, CharacterDetailsViewIntent, CharactersDetailsSideEffect>() {
+) : BaseViewModel<CharacterDetailsViewState, CharacterDetailsLoadDataViewIntent, CharactersDetailsSideEffect>() {
 
     init {
         val id =
-            savedStateHandle.get<Int>(Constants.characterId) // will work because of navBackStackEntry which implements ViewModelStoreOwner and holds the arguments.
-        sendIntent(CharacterDetailsViewIntent.LoadData(id ?: 0))
+            savedStateHandle.get<Int>(NavRoutes.characterId) // will work because of navBackStackEntry which implements ViewModelStoreOwner and holds the arguments.
+        sendIntent(CharacterDetailsLoadDataViewIntent(id ?: 0))
     }
 
     /**
@@ -46,14 +47,18 @@ class CharacterDetailsViewModel @Inject constructor(
         viewModelScope.launch(ioDispatcher) {
             when (val apiResult = getDisneyCharacterDetailsUseCase(id)) {
                 is APIResult.Success -> {
-                    mapper.mapToCharacter(apiResult.data)
-                        .also {
-                            state.emit(CharacterDetailsViewState.Success(it))
+                    mapper.map(apiResult.data)
+                        .also { character ->
+                            state.update {
+                                CharacterDetailsViewState.Success(character)
+                            }
                         }
                 }
 
                 is APIResult.Error -> {
-                    state.emit(CharacterDetailsViewState.Error(apiResult.exception))
+                    state.update {
+                        CharacterDetailsViewState.Error(apiResult.errorCode, apiResult.errorMessage)
+                    }
                 }
             }
         }
@@ -63,11 +68,8 @@ class CharacterDetailsViewModel @Inject constructor(
         return CharacterDetailsViewState.Loading
     }
 
-    override fun sendIntent(viewIntent: CharacterDetailsViewIntent) {
-        when (viewIntent) {
-            is CharacterDetailsViewIntent.LoadData -> {
-                getCharacterDetails(viewIntent.id)
-            }
-        }
+    override fun sendIntent(viewIntent: CharacterDetailsLoadDataViewIntent) {
+        getCharacterDetails(viewIntent.id)
     }
+
 }

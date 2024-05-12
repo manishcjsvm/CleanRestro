@@ -1,10 +1,11 @@
 package com.assignment.data.repository
 
-import com.assignment.common.APIResult
 import com.assignment.common.logger.Logger
 import com.assignment.data.api.DisneyService
 import com.assignment.data.mappers.CharacterEntityMapper
 import com.assignment.data.mappers.CharacterListEntityMapper
+import com.assignment.data.toAPIResult
+import com.assignment.domain.APIResult
 import com.assignment.domain.entities.CharacterEntity
 import com.assignment.domain.entities.CharacterListEntity
 import com.assignment.domain.repository.DisneyRepository
@@ -30,32 +31,23 @@ class DisneyRepositoryImpl @Inject constructor(
 
     override suspend fun getDisneyCharactersList(): APIResult<CharacterListEntity> {
         return try {
-            logger.debug("$TAG Fetching characters list from server...")
-            disneyService.getDisneyCharactersList().run {
 
-                logger.debug("$TAG Characters list fetched successfully with data : ${this.data}")
-                APIResult.Success(characterListEntityMapper.mapToEntity(this))
+            val result = disneyService.getDisneyCharactersList()
+            APIResult.Success(characterListEntityMapper.map(result))
 
-            }
         } catch (exception: Exception) {
             logger.error("$TAG Fetch failed with error: ${exception.message}")
-            APIResult.Error(exception)
+            exception.toAPIResult()
         }
     }
 
     override suspend fun getDisneyCharacterDetails(id: Int): APIResult<CharacterEntity> {
         return try {
-            logger.debug("$TAG Fetching character details with id=$id from server...")
-
-            disneyService.getDisneyCharacterDetails(id).run {
-
-                logger.debug("$TAG Character details fetched successfully with data : ${this.data}")
-
-                APIResult.Success(characterEntityMapper.mapToEntity(this.data))
-            }
+            val result = disneyService.getDisneyCharacterDetails(id)
+            APIResult.Success(characterEntityMapper.map(result.data))
         } catch (exception: Exception) {
             logger.error("$TAG Fetch failed with error: ${exception.message}")
-            APIResult.Error(exception)
+            exception.toAPIResult()
         }
     }
 }

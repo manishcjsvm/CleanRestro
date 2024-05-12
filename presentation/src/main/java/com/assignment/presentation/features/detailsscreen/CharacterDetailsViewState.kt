@@ -1,5 +1,6 @@
 package com.assignment.presentation.features.detailsscreen
 
+import com.assignment.domain.APIResult
 import com.assignment.presentation.base.ViewState
 import com.assignment.presentation.models.Character
 
@@ -12,7 +13,7 @@ sealed class CharacterDetailsViewState : ViewState {
     /**
      * To show loading while operations.
      */
-    object Loading : CharacterDetailsViewState()
+    data object Loading : CharacterDetailsViewState()
 
     /**
      * To be used when there will be success case.
@@ -22,10 +23,10 @@ sealed class CharacterDetailsViewState : ViewState {
     data class Success(val data: Character) : CharacterDetailsViewState()
 
     /**
-     * To be used when there will be an error case.
+     * To be used where there will be error in response.
      *
-     * @param exception to be passed to the view.
+     * @param errorCode error code to be passed.
+     * @param errorMessage error message to be passed.
      */
-    data class Error(val exception: Exception) : CharacterDetailsViewState()
-
+    data class Error(val errorCode: Int, val errorMessage: String) : CharacterDetailsViewState()
 }

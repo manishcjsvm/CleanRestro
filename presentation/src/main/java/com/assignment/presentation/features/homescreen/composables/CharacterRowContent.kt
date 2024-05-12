@@ -7,10 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
-import com.assignment.cleanrestro.ui.theme.CleanRestroTheme
 import com.assignment.presentation.R
-import com.assignment.presentation.constants.Constants
 import com.assignment.presentation.models.Character
 
 @Composable
@@ -35,11 +32,3 @@ fun CharacterRowContent(modifier: Modifier = Modifier, character: Character) {
 
 }
 
-@Preview(showSystemUi = true)
-@Composable
-fun PreviewCharacterRowContent() {
-    val character = Constants.getCharacter()
-    CleanRestroTheme {
-        CharacterRowContent(modifier = Modifier, character = character)
-    }
-}

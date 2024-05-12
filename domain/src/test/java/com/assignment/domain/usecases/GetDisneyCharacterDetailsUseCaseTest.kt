@@ -1,11 +1,11 @@
 package com.assignment.domain.usecases
 
-import com.assignment.common.APIResult
+import com.assignment.domain.APIResult
 import com.assignment.domain.fakes.FakeData
 import com.assignment.domain.repository.DisneyRepository
 import io.mockk.coEvery
-import io.mockk.impl.annotations.MockK
 import io.mockk.junit4.MockKRule
+import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -13,20 +13,19 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class GetDisneyCharacterDetailsUseCaseImplTest {
+class GetDisneyCharacterDetailsUseCaseTest {
 
     @get:Rule
     val mockkRule = MockKRule(this)
 
-    @MockK
-    private lateinit var disneyRepository:DisneyRepository
+    private val disneyRepository: DisneyRepository = mockk()
 
-    private lateinit var getDisneyCharacterDetailsUseCaseImpl: GetDisneyCharacterDetailsUseCaseImpl
+    private lateinit var getDisneyCharacterDetailsUseCase: GetDisneyCharacterDetailsUseCase
 
     @Before
     fun setUp() {
-        getDisneyCharacterDetailsUseCaseImpl =
-            GetDisneyCharacterDetailsUseCaseImpl(disneyRepository)
+        getDisneyCharacterDetailsUseCase =
+            GetDisneyCharacterDetailsUseCase(disneyRepository)
     }
 
     @Test
@@ -41,7 +40,7 @@ class GetDisneyCharacterDetailsUseCaseImplTest {
             )
 
             //ACT
-            val result = getDisneyCharacterDetailsUseCaseImpl(ID)
+            val result = getDisneyCharacterDetailsUseCase(ID)
 
             //ASSERT
             assertTrue(result is APIResult.Success)
@@ -57,25 +56,24 @@ class GetDisneyCharacterDetailsUseCaseImplTest {
         runTest {
 
             // ARRANGE
-            val exception = Exception(EXCEPTION_MESSAGE)
             coEvery { disneyRepository.getDisneyCharacterDetails(ID) } returns APIResult.Error(
-                exception
+                ERROR_CODE, ERROR_MESSAGE
             )
 
             //ACT
-            val result = getDisneyCharacterDetailsUseCaseImpl(ID)
+            val result = getDisneyCharacterDetailsUseCase(ID)
 
             //ASSERT
             assertTrue(result is APIResult.Error)
-            assertEquals(exception, (result as APIResult.Error).exception)
+            assertEquals(ERROR_MESSAGE, (result as APIResult.Error).errorMessage)
 
         }
     }
 
 
-    companion object {
+    private companion object {
         const val ID = 1
-        const val EXCEPTION_MESSAGE = "Network Exception!"
-
+        const val ERROR_CODE = 1
+        const val ERROR_MESSAGE = "Something went wrong! Please try again!"
     }
 }

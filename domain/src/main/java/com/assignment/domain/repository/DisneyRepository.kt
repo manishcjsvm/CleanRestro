@@ -1,6 +1,6 @@
 package com.assignment.domain.repository
 
-import com.assignment.common.APIResult
+import com.assignment.domain.APIResult
 import com.assignment.domain.entities.CharacterEntity
 import com.assignment.domain.entities.CharacterListEntity
 

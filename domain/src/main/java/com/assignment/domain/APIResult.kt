@@ -1,4 +1,4 @@
-package com.assignment.common
+package com.assignment.domain
 
 /**
  * To be used as a result of api request.
@@ -16,7 +16,8 @@ sealed interface APIResult<out T> {
     /**
      * To be used where there will be error in response.
      *
-     * @param exception error to be passed.
+     * @param errorCode error code to be passed.
+     * @param errorMessage error message to be passed.
      */
-    data class Error(val exception: Exception) : APIResult<Nothing>
+    data class Error(val errorCode: Int, val errorMessage: String) : APIResult<Nothing>
 }

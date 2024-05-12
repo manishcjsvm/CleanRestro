@@ -7,7 +7,6 @@ import com.assignment.presentation.models.CharacterList
 
 object FakeData {
 
-
     fun getCharactersListEntity(): CharacterListEntity {
         return CharacterListEntity(buildList {
             add(getCharacterEntity())
@@ -40,6 +39,7 @@ object FakeData {
             updatedAt = UPDATED_AT
         )
     }
+
 
     private const val ID = 1
     private const val CREATED_AT = "2021-04-12T01:31:30.547Z"

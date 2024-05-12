@@ -2,8 +2,8 @@ package com.assignment.data.mappers
 
 import com.assignment.data.fakes.FakeData
 import io.mockk.every
-import io.mockk.impl.annotations.MockK
 import io.mockk.junit4.MockKRule
+import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -16,8 +16,7 @@ class CharacterListEntityMapperTest {
     val mockkRule = MockKRule(this)
     private lateinit var characterListEntityMapper: CharacterListEntityMapper
 
-    @MockK
-    private lateinit var characterEntityMapper: CharacterEntityMapper
+    private val characterEntityMapper: CharacterEntityMapper = mockk()
 
     @Before
     fun setUp() {
@@ -31,13 +30,13 @@ class CharacterListEntityMapperTest {
         val charactersListDTO = FakeData.getCharactersListDTO()
         val characterEntity = FakeData.getCharacterEntity()
         val characterListEntity = FakeData.getCharacterListEntity()
-        every { characterEntityMapper.mapToEntity(any()) } returns characterEntity
+        every { characterEntityMapper.map(any()) } returns characterEntity
 
         //ACT
-        val result = characterListEntityMapper.mapToEntity(charactersListDTO)
+        val result = characterListEntityMapper.map(charactersListDTO)
 
         //ASSERT
         assertEquals(characterListEntity, result)
-        verify { characterEntityMapper.mapToEntity(any()) }
+        verify { characterEntityMapper.map(any()) }
     }
 }

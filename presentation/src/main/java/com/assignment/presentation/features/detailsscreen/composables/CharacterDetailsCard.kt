@@ -11,12 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.assignment.cleanrestro.ui.theme.CleanRestroTheme
 import com.assignment.presentation.R
 import com.assignment.presentation.composables.Avatar
-import com.assignment.presentation.constants.Constants
 import com.assignment.presentation.models.Character
 
 /**
@@ -55,14 +52,5 @@ fun CharacterDetailsCard(
             Text(text = stringResource(id = R.string.updatedAt, updatedAt))
         }
 
-    }
-}
-
-@Preview(showSystemUi = true)
-@Composable
-fun PreviewCharacterCard() {
-    val character = Constants.getCharacter()
-    CleanRestroTheme {
-        CharacterDetailsCard(character = character)
     }
 }

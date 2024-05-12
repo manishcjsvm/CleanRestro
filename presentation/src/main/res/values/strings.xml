@@ -4,7 +4,6 @@
     <string name="characters_list_screen">Characters List</string>
     <string name="character_details">Characters Details</string>
     <string name="character_avatar">Character Avatar</string>
-    <string name="something_went_wrong">Something went wrong!</string>
     <string name="avatar">Avatar</string>
     <string name="films">Films : %1$s</string>
     <string name="createdAt">Created : %1$s</string>

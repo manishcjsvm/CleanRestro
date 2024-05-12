@@ -2,24 +2,15 @@ package com.assignment.presentation.features.detailsscreen
 
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
-import com.assignment.common.APIResult
+import com.assignment.domain.APIResult
 import com.assignment.domain.usecases.GetDisneyCharacterDetailsUseCase
-import com.assignment.presentation.di.MainDispatcher
 import com.assignment.presentation.fakes.FakeData
-import com.assignment.presentation.features.homescreen.CharactersListViewModelTest
 import com.assignment.presentation.mappers.CharacterMapper
 import com.assignment.presentation.rules.MainDispatcherRule
 import io.mockk.coEvery
-import io.mockk.impl.annotations.MockK
-import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit4.MockKRule
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.resetMain
+import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
-import org.junit.After
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
@@ -36,22 +27,21 @@ class CharacterDetailsViewModelTest {
 
     private lateinit var characterDetailsViewModel: CharacterDetailsViewModel
 
-    @MockK
-    private lateinit var getDisneyCharacterDetailsUseCase: GetDisneyCharacterDetailsUseCase
 
-    @MockK
-    private lateinit var characterMapper: CharacterMapper
+    private val getDisneyCharacterDetailsUseCase: GetDisneyCharacterDetailsUseCase = mockk()
 
-    @RelaxedMockK // because to get default return values of un-stubbed methods
-    private lateinit var savedStateHandle: SavedStateHandle
+
+    private val characterMapper: CharacterMapper = mockk()
+
+    private val savedStateHandle: SavedStateHandle = mockk(relaxed = true)
 
 
     @Before
     fun setUp() {
         val characterEntity = FakeData.getCharacterEntity()
         val character = FakeData.getCharacter()
-        coEvery { savedStateHandle.get<Int>(characterId) } returns ID
-        coEvery { characterMapper.mapToCharacter(characterEntity) } returns character
+        coEvery { savedStateHandle.get<Int>(CHARACTER_ID) } returns ID
+        coEvery { characterMapper.map(characterEntity) } returns character
         coEvery { getDisneyCharacterDetailsUseCase(1) } returns APIResult.Success(characterEntity)
 
         characterDetailsViewModel = CharacterDetailsViewModel(
@@ -67,7 +57,7 @@ class CharacterDetailsViewModelTest {
             characterDetailsViewModel.run {
 
                 stateFlow.test {
-                    sendIntent(CharacterDetailsViewIntent.LoadData(id = ID))
+                    sendIntent(CharacterDetailsLoadDataViewIntent(id = ID))
                     assertTrue(awaitItem() is CharacterDetailsViewState.Success)
                 }
 
@@ -81,11 +71,11 @@ class CharacterDetailsViewModelTest {
         runTest {
 
             coEvery { getDisneyCharacterDetailsUseCase(id = ID) } answers {
-                APIResult.Error(Exception(CharactersListViewModelTest.EXCEPTION_MESSAGE))
+                APIResult.Error(STATUS_CODE, ERROR_MESSAGE)
             }
             characterDetailsViewModel.run {
                 stateFlow.test {
-                    sendIntent(CharacterDetailsViewIntent.LoadData(id = ID))
+                    sendIntent(CharacterDetailsLoadDataViewIntent(id = ID))
                     assertTrue(awaitItem() is CharacterDetailsViewState.Success)
                     assertTrue(awaitItem() is CharacterDetailsViewState.Error)
                 }
@@ -95,8 +85,10 @@ class CharacterDetailsViewModelTest {
     }
 
 
-    companion object {
+    private companion object {
         const val ID = 1
-        const val characterId = "characterId"
+        const val CHARACTER_ID = "characterId"
+        const val ERROR_MESSAGE = "Network Error!"
+        const val STATUS_CODE = 1
     }
 }

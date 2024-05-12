@@ -9,7 +9,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.assignment.presentation.R
 import com.assignment.presentation.base.BaseScreen
-import com.assignment.presentation.constants.Constants
 import com.assignment.presentation.features.detailsscreen.CharacterDetailsScreen
 import com.assignment.presentation.features.homescreen.CharactersListScreen
 
@@ -37,14 +36,14 @@ fun NavGraph(navHostController: NavHostController) {
             }
         }
         composable(
-            route = "${NavScreens.CharacterDetailsScreen.route}/{${Constants.characterId}}",
-            arguments = listOf(navArgument(name = Constants.characterId)
+            route = "${NavScreens.CharacterDetailsScreen.route}/{${NavRoutes.characterId}}",
+            arguments = listOf(navArgument(name = NavRoutes.characterId)
             {
                 type = NavType.IntType
             })
         )
         { navBackStackEntry ->
-            navBackStackEntry.arguments?.getInt(Constants.characterId)?.let {
+            navBackStackEntry.arguments?.getInt(NavRoutes.characterId)?.let {
                 BaseScreen(title = stringResource(id = R.string.character_details),
                     backButtonEnabled = true,
                     onBackButtonClick =

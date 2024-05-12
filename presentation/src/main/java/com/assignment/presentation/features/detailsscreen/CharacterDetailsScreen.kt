@@ -37,7 +37,7 @@ fun CharacterDetailsScreen() {
 
         is CharacterDetailsViewState.Error -> {
             Error(
-                errorMessage = stringResource(id = R.string.something_went_wrong)
+                errorMessage = currentState.errorMessage
             )
         }
     }

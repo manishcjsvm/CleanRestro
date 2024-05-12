@@ -3,8 +3,8 @@ package com.assignment.presentation.mappers
 import com.assignment.presentation.fakes.FakeData
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.impl.annotations.MockK
 import io.mockk.junit4.MockKRule
+import io.mockk.mockk
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -17,8 +17,7 @@ class CharacterListMapperTest {
 
     private lateinit var characterListMapper: CharacterListMapper
 
-    @MockK
-    private lateinit var characterMapper: CharacterMapper
+    private val characterMapper: CharacterMapper = mockk()
 
     @Before
     fun setUp() {
@@ -33,13 +32,13 @@ class CharacterListMapperTest {
         val charactersList = FakeData.getCharactersList()
         val characterEntity = FakeData.getCharacterEntity()
         val character = FakeData.getCharacter()
-        coEvery { characterMapper.mapToCharacter(characterEntity) } returns character
+        coEvery { characterMapper.map(characterEntity) } returns character
 
         //ACT
-        val result = characterListMapper.mapToCharacterList(charactersListEntity)
+        val result = characterListMapper.map(charactersListEntity)
 
         //ASSERT
         assertEquals(charactersList, result)
-        coVerify { characterMapper.mapToCharacter(characterEntity) }
+        coVerify { characterMapper.map(characterEntity) }
     }
 }

@@ -1,21 +1,16 @@
 package com.assignment.presentation.features.homescreen
 
 import app.cash.turbine.test
-import com.assignment.common.APIResult
+import com.assignment.domain.APIResult
 import com.assignment.domain.usecases.GetDisneyCharactersListUseCase
 import com.assignment.presentation.fakes.FakeData
 import com.assignment.presentation.mappers.CharacterListMapper
 import com.assignment.presentation.rules.MainDispatcherRule
 import io.mockk.coEvery
-import io.mockk.impl.annotations.MockK
 import io.mockk.junit4.MockKRule
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.resetMain
+import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
-import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
@@ -32,16 +27,14 @@ class CharactersListViewModelTest {
 
     private lateinit var charactersListViewModel: CharactersListViewModel
 
-    @MockK
-    private lateinit var getDisneyCharactersListUseCase: GetDisneyCharactersListUseCase
+    private val getDisneyCharactersListUseCase: GetDisneyCharactersListUseCase = mockk()
 
-    @MockK
-    private lateinit var characterListMapper: CharacterListMapper
+    private val characterListMapper: CharacterListMapper =
+        mockk() // Do it like this only, memory point of view.
 
 
     @Before
     fun setUp() {
-
 
         val charactersListEntity = FakeData.getCharactersListEntity()
         val charactersList = FakeData.getCharactersList()
@@ -49,7 +42,7 @@ class CharactersListViewModelTest {
         coEvery { getDisneyCharactersListUseCase() } returns APIResult.Success(
             charactersListEntity
         )
-        coEvery { characterListMapper.mapToCharacterList(charactersListEntity) } returns charactersList
+        coEvery { characterListMapper.map(charactersListEntity) } returns charactersList
 
         charactersListViewModel =
             CharactersListViewModel(
@@ -78,7 +71,7 @@ class CharactersListViewModelTest {
         runTest {
 
             coEvery { getDisneyCharactersListUseCase() } answers {
-                APIResult.Error(Exception(EXCEPTION_MESSAGE))
+                APIResult.Error(STATUS_CODE, ERROR_MESSAGE)
             }
             charactersListViewModel.run {
                 stateFlow.test {
@@ -100,15 +93,16 @@ class CharactersListViewModelTest {
 
                 sideEffectFlow.test {
                     sendIntent(CharacterListViewIntent.OnItemClicked(id = ID))
-                    assertTrue(awaitItem() is CharactersListSideEffect.NavigateToCharacterDetails)
+                    assertEquals(awaitItem().id, ID)
                 }
             }
 
         }
     }
 
-    companion object {
-        const val EXCEPTION_MESSAGE = "Network Exception!"
+    private companion object {
+        const val STATUS_CODE = 1
+        const val ERROR_MESSAGE = "Network Error!"
         const val ID = 1
     }
 }

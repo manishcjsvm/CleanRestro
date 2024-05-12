@@ -9,7 +9,6 @@ class CharacterMapperTest {
 
     private lateinit var characterMapper: CharacterMapper
 
-
     @Before
     fun setUp() {
         characterMapper = CharacterMapper()
@@ -23,7 +22,7 @@ class CharacterMapperTest {
         val character = FakeData.getCharacter()
 
         //ACT
-        val result = characterMapper.mapToCharacter(characterEntity)
+        val result = characterMapper.map(characterEntity)
 
         //ASSERT
         assertEquals(character, result)

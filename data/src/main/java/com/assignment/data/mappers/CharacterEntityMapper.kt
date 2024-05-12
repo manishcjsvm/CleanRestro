@@ -1,5 +1,6 @@
 package com.assignment.data.mappers
 
+import com.assignment.common.Mapper
 import com.assignment.data.dto.CharacterDTO
 import com.assignment.domain.entities.CharacterEntity
 import javax.inject.Inject
@@ -7,17 +8,18 @@ import javax.inject.Inject
 /**
  * To map the character dto object to character entity which is required by domain module.
  */
-class CharacterEntityMapper @Inject constructor() {
+class CharacterEntityMapper @Inject constructor() : Mapper<CharacterDTO,CharacterEntity> {
 
     /**
      * To map the character dto to character entity.
      *
-     * @param characterDTO model from data module.
+     * @param from model from data module.
      *
      * @return [CharacterEntity] model required by domain module.
      */
-    fun mapToEntity(characterDTO: CharacterDTO): CharacterEntity {
-        return with(characterDTO)
+
+   override fun map(from: CharacterDTO): CharacterEntity {
+        return with(from)
         {
             CharacterEntity(
                 id = id,

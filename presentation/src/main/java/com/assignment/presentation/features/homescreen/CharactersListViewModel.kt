@@ -1,13 +1,14 @@
 package com.assignment.presentation.features.homescreen
 
 import androidx.lifecycle.viewModelScope
-import com.assignment.common.APIResult
+import com.assignment.domain.APIResult
 import com.assignment.domain.usecases.GetDisneyCharactersListUseCase
 import com.assignment.presentation.base.BaseViewModel
 import com.assignment.presentation.di.IODispatcher
 import com.assignment.presentation.mappers.CharacterListMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,7 +26,7 @@ class CharactersListViewModel @Inject constructor(
     private val getDisneyCharactersListUseCase: GetDisneyCharactersListUseCase,
     private val mapper: CharacterListMapper,
     @IODispatcher private val ioDispatcher: CoroutineDispatcher
-) : BaseViewModel<CharacterListViewState, CharacterListViewIntent, CharactersListSideEffect>() {
+) : BaseViewModel<CharacterListViewState, CharacterListViewIntent, NavigateToCharacterDetailsSideEffect>() {
 
     init {
         sendIntent(CharacterListViewIntent.LoadData)
@@ -39,14 +40,19 @@ class CharactersListViewModel @Inject constructor(
         viewModelScope.launch(ioDispatcher) {
             when (val apiResult = getDisneyCharactersListUseCase()) {
                 is APIResult.Success -> {
-                    mapper.mapToCharacterList(apiResult.data)
-                        .also {
-                            state.emit(CharacterListViewState.Success(it))
+                    mapper.map(apiResult.data)
+                        .also {characterList->
+
+                            state.update {
+                                CharacterListViewState.Success(characterList)
+                            }
                         }
                 }
 
                 is APIResult.Error -> {
-                    state.emit(CharacterListViewState.Error(apiResult.exception))
+                    state.update {
+                        CharacterListViewState.Error(apiResult.errorCode,apiResult.errorMessage)
+                    }
                 }
             }
         }
@@ -64,7 +70,7 @@ class CharactersListViewModel @Inject constructor(
 
             is CharacterListViewIntent.OnItemClicked -> {
                 viewModelScope.launch {
-                    sideEffect.emit(CharactersListSideEffect.NavigateToCharacterDetails(viewIntent.id))
+                    sideEffect.emit(NavigateToCharacterDetailsSideEffect(viewIntent.id))
                 }
             }
         }

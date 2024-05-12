@@ -9,11 +9,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.assignment.cleanrestro.ui.theme.CleanRestroTheme
-import com.assignment.presentation.constants.Constants
 
 /**
  * To be used when there is an error case.
@@ -39,12 +36,4 @@ fun Error(modifier: Modifier = Modifier, errorMessage: String) {
         )
     }
 
-}
-
-@Preview(showSystemUi = true)
-@Composable
-fun PreviewError() {
-    CleanRestroTheme {
-        Error(errorMessage = Constants.ERROR_MESSAGE)
-    }
 }

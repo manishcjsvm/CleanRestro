@@ -37,7 +37,7 @@ fun CharactersListScreen(onItemClick: (id: Int) -> Unit) {
 
         is CharacterListViewState.Error -> {
             Error(
-                errorMessage = stringResource(id = R.string.something_went_wrong)
+                errorMessage = currentState.errorMessage
             )
         }
     }
@@ -47,11 +47,7 @@ fun CharactersListScreen(onItemClick: (id: Int) -> Unit) {
 
         viewModel.sideEffectFlow.collect()
         {
-            when (it) {
-                is CharactersListSideEffect.NavigateToCharacterDetails -> {
-                    onItemClick(it.id)
-                }
-            }
+            onItemClick(it.id)
         }
     }
 }

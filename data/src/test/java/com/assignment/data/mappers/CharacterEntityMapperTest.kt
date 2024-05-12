@@ -23,7 +23,7 @@ class CharacterEntityMapperTest {
         val characterEntity = FakeData.getCharacterEntity()
 
         //ACT
-        val result = characterEntityMapper.mapToEntity(characterDTO)
+        val result = characterEntityMapper.map(characterDTO)
 
         //ASSERT
         assertEquals(characterEntity, result)

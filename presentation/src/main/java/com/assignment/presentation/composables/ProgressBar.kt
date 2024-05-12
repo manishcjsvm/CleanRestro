@@ -7,9 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.assignment.cleanrestro.ui.theme.CleanRestroTheme
 
 /**
  * To be used a progress bar while loading the data.
@@ -25,12 +23,4 @@ fun ProgressBar(modifier: Modifier = Modifier) {
         CircularProgressIndicator(modifier = Modifier.size(40.dp), color = Color.Red)
     }
 
-}
-
-@Preview(showSystemUi = true)
-@Composable
-fun PreviewProgressBar() {
-    CleanRestroTheme {
-        ProgressBar()
-    }
 }

@@ -12,11 +12,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.assignment.cleanrestro.ui.theme.CleanRestroTheme
 import com.assignment.presentation.composables.Avatar
-import com.assignment.presentation.constants.Constants
 import com.assignment.presentation.models.Character
 
 @Composable
@@ -53,13 +50,3 @@ fun CharacterListRow(
     }
 }
 
-@Preview(showSystemUi = true)
-@Composable
-fun PreviewCharacterRow() {
-    val character = Constants.getCharacter()
-    CleanRestroTheme {
-        CharacterListRow(character = character) {
-
-        }
-    }
-}
