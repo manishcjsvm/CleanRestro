@@ -2,11 +2,9 @@ Dummy app
 
 Tech stack used :
 
-Architecture : Clean + MVI
-Dependency Injection Framework : Hilt
-UI : Jetpack Compose
-Networking : Retrofit
-Asynchronous Programming : Coroutines and Flow
+Architecture : Clean + MVI </br>
+Dependency Injection Framework : Hilt </br>
+UI : Jetpack Compose </br>
+Networking : Retrofit </br>
+Asynchronous Programming : Coroutines and Flow </br>
 Unit Testing Framework : Junit, Mockk
-
-
