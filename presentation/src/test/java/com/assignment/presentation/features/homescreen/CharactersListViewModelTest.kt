@@ -4,7 +4,6 @@ import app.cash.turbine.test
 import com.assignment.domain.APIResult
 import com.assignment.domain.usecases.GetDisneyCharactersListUseCase
 import com.assignment.presentation.fakes.FakeData
-import com.assignment.presentation.mappers.CharacterListMapper
 import com.assignment.presentation.rules.MainDispatcherRule
 import io.mockk.coEvery
 import io.mockk.junit4.MockKRule
@@ -29,25 +28,22 @@ class CharactersListViewModelTest {
 
     private val getDisneyCharactersListUseCase: GetDisneyCharactersListUseCase = mockk()
 
-    private val characterListMapper: CharacterListMapper =
-        mockk() // Do it like this only, memory point of view.
 
+    private lateinit var fakeData: FakeData
 
     @Before
     fun setUp() {
 
-        val charactersListEntity = FakeData.getCharactersListEntity()
-        val charactersList = FakeData.getCharactersList()
+        fakeData = FakeData()
+        val charactersListEntity = fakeData.getCharactersListEntity()
 
         coEvery { getDisneyCharactersListUseCase() } returns APIResult.Success(
             charactersListEntity
         )
-        coEvery { characterListMapper.map(charactersListEntity) } returns charactersList
 
         charactersListViewModel =
             CharactersListViewModel(
                 getDisneyCharactersListUseCase,
-                characterListMapper,
                 testDispatcherRule.getDispatcher()
             )
     }

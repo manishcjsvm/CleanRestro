@@ -22,8 +22,11 @@ class GetDisneyCharactersListUseCaseTest {
 
     private lateinit var getDisneyCharactersListUseCase: GetDisneyCharactersListUseCase
 
+    private lateinit var fakeData: FakeData
+
     @Before
     fun setUp() {
+        fakeData = FakeData()
         getDisneyCharactersListUseCase = GetDisneyCharactersListUseCase(disneyRepository)
     }
 
@@ -33,7 +36,7 @@ class GetDisneyCharactersListUseCaseTest {
         runTest {
 
             // ARRANGE
-            val characterListEntity = FakeData.getCharacterListEntity()
+            val characterListEntity = fakeData.getCharacterListEntity()
             coEvery { disneyRepository.getDisneyCharactersList() } returns APIResult.Success(
                 characterListEntity
             )

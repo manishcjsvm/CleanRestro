@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -27,30 +29,31 @@ fun CharacterDetailsCard(
     modifier: Modifier = Modifier, character: Character
 ) {
 
-    Card(
-        modifier = modifier, elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-    ) {
-
-        with(character) {
-            Column {
-                Avatar(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp), imageUrl = imageUrl
+    Column(Modifier.verticalScroll(rememberScrollState())) {
+        Card(
+            modifier = modifier, elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        ) {
+            with(character) {
+                Column {
+                    Avatar(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp), imageUrl = imageUrl
+                    )
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    text = stringResource(id = R.string.name, name),
+                    style = MaterialTheme.typography.titleLarge
                 )
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(text = stringResource(id = R.string.films, films.joinToString()))
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(text = stringResource(id = R.string.createdAt, createdAt))
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(text = stringResource(id = R.string.updatedAt, updatedAt))
             }
-            Spacer(modifier = Modifier.height(10.dp))
-            Text(
-                text = stringResource(id = R.string.name, name),
-                style = MaterialTheme.typography.titleLarge
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-            Text(text = stringResource(id = R.string.films, films.joinToString()))
-            Spacer(modifier = Modifier.height(10.dp))
-            Text(text = stringResource(id = R.string.createdAt, createdAt))
-            Spacer(modifier = Modifier.height(10.dp))
-            Text(text = stringResource(id = R.string.updatedAt, updatedAt))
-        }
 
+        }
     }
 }

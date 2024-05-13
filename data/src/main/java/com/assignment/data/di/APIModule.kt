@@ -25,7 +25,6 @@ object APIModule {
         gsonConverterFactory: GsonConverterFactory,
         okHttpClient: OkHttpClient
     ): DisneyService {
-
         return Retrofit.Builder().baseUrl(baseUrl)
             .addConverterFactory(gsonConverterFactory)
             .client(okHttpClient).build().create(DisneyService::class.java)
@@ -50,9 +49,7 @@ object APIModule {
     fun provideBaseUrl(): String = BuildConfig.BASE_URL
 
     @Provides
-    fun provideGsonFactory(): GsonConverterFactory {
-        return GsonConverterFactory.create()
-    }
+    fun provideGsonFactory(): GsonConverterFactory = GsonConverterFactory.create()
 
     @Provides
     fun provideHttpLoggingInterceptor() = HttpLoggingInterceptor()

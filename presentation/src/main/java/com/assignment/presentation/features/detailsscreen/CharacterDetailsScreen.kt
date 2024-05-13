@@ -5,10 +5,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.assignment.presentation.R
 import com.assignment.presentation.composables.Error
 import com.assignment.presentation.composables.ProgressBar
 import com.assignment.presentation.features.detailsscreen.composables.CharacterDetailsCard

@@ -1,10 +1,11 @@
 package com.assignment.data.repository
 
 import com.assignment.common.logger.Logger
+import com.assignment.data.ErrorConstants
 import com.assignment.data.api.DisneyService
-import com.assignment.data.mappers.CharacterEntityMapper
-import com.assignment.data.mappers.CharacterListEntityMapper
 import com.assignment.data.toAPIResult
+import com.assignment.data.toCharacterEntity
+import com.assignment.data.toCharactersListEntity
 import com.assignment.domain.APIResult
 import com.assignment.domain.entities.CharacterEntity
 import com.assignment.domain.entities.CharacterListEntity
@@ -17,15 +18,11 @@ private const val TAG = "DisneyRepositoryImpl==>"
  * Concrete implementation of [DisneyRepository].
  *
  * @param disneyService api service.
- * @param characterListEntityMapper which maps character list dto to character list entity.
- * @param characterEntityMapper which maps character dto to character entity.
  * @param logger to log messages and errors.
  *
  */
 class DisneyRepositoryImpl @Inject constructor(
     private val disneyService: DisneyService,
-    private val characterListEntityMapper: CharacterListEntityMapper,
-    private val characterEntityMapper: CharacterEntityMapper,
     private val logger: Logger
 ) : DisneyRepository {
 
@@ -33,10 +30,10 @@ class DisneyRepositoryImpl @Inject constructor(
         return try {
 
             val result = disneyService.getDisneyCharactersList()
-            APIResult.Success(characterListEntityMapper.map(result))
+            APIResult.Success(result.toCharactersListEntity())
 
         } catch (exception: Exception) {
-            logger.error("$TAG Fetch failed with error: ${exception.message}")
+            logger.error("$TAG ${ErrorConstants.FETCH_CHARACTERS_LIST_ERROR} ${exception.message}")
             exception.toAPIResult()
         }
     }
@@ -44,9 +41,9 @@ class DisneyRepositoryImpl @Inject constructor(
     override suspend fun getDisneyCharacterDetails(id: Int): APIResult<CharacterEntity> {
         return try {
             val result = disneyService.getDisneyCharacterDetails(id)
-            APIResult.Success(characterEntityMapper.map(result.data))
+            APIResult.Success(result.data.toCharacterEntity())
         } catch (exception: Exception) {
-            logger.error("$TAG Fetch failed with error: ${exception.message}")
+            logger.error("$TAG ${ErrorConstants.FETCH_CHARACTER_DETAILS_ERROR} ${exception.message}")
             exception.toAPIResult()
         }
     }

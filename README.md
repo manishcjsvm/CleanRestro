@@ -1,4 +1,4 @@
-Dummy app
+**Dummy app**
 
 Tech stack used :
 

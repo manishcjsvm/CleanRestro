@@ -1,10 +1,8 @@
 package com.assignment.presentation.mappers
 
 import com.assignment.presentation.fakes.FakeData
-import io.mockk.coEvery
-import io.mockk.coVerify
+import com.assignment.presentation.toCharacterList
 import io.mockk.junit4.MockKRule
-import io.mockk.mockk
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -15,30 +13,25 @@ class CharacterListMapperTest {
     @get:Rule
     val mockkRule = MockKRule(this)
 
-    private lateinit var characterListMapper: CharacterListMapper
 
-    private val characterMapper: CharacterMapper = mockk()
+    private lateinit var fakeData: FakeData
 
     @Before
     fun setUp() {
-        characterListMapper = CharacterListMapper(characterMapper = characterMapper)
+        fakeData = FakeData()
     }
 
     @Test
-    fun `GIVEN mapper with character list entity WHEN calls mapToCharacterList RETURNS characters list`() {
+    fun `GIVEN mapper with character list entity WHEN calls toCharacterList RETURNS characters list`() {
 
         //ARRANGE
-        val charactersListEntity = FakeData.getCharactersListEntity()
-        val charactersList = FakeData.getCharactersList()
-        val characterEntity = FakeData.getCharacterEntity()
-        val character = FakeData.getCharacter()
-        coEvery { characterMapper.map(characterEntity) } returns character
+        val charactersListEntity = fakeData.getCharactersListEntity()
+        val charactersList = fakeData.getCharactersList()
 
         //ACT
-        val result = characterListMapper.map(charactersListEntity)
+        val result = charactersListEntity.toCharacterList()
 
         //ASSERT
         assertEquals(charactersList, result)
-        coVerify { characterMapper.map(characterEntity) }
     }
 }

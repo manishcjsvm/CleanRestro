@@ -13,3 +13,4 @@ data class CharacterDTO(
     val updatedAt: String,
     val url: String
 )
+

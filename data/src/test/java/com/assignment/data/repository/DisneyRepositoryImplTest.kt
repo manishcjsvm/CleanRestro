@@ -3,8 +3,8 @@ package com.assignment.data.repository
 import com.assignment.common.logger.Logger
 import com.assignment.data.api.DisneyService
 import com.assignment.data.fakes.FakeData
-import com.assignment.data.mappers.CharacterEntityMapper
-import com.assignment.data.mappers.CharacterListEntityMapper
+import com.assignment.data.toCharacterEntity
+import com.assignment.data.toCharactersListEntity
 import com.assignment.domain.APIResult
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -26,25 +26,22 @@ class DisneyRepositoryImplTest {
 
     private val disneyService: DisneyService = mockk()
 
-    private val characterListEntityMapper: CharacterListEntityMapper = mockk()
-
-    private val characterEntityMapper: CharacterEntityMapper = mockk()
-
     private val logger: Logger = mockk()
 
     private lateinit var disneyRepositoryImpl: DisneyRepositoryImpl
 
+    private lateinit var fakeData: FakeData
 
     @Before
     fun setUp() {
+
+        fakeData = FakeData()
 
         every { logger.debug(any()) } returns Unit
         every { logger.error(any()) } returns Unit
         disneyRepositoryImpl =
             DisneyRepositoryImpl(
                 disneyService,
-                characterListEntityMapper,
-                characterEntityMapper,
                 logger
             )
     }
@@ -56,10 +53,10 @@ class DisneyRepositoryImplTest {
         runTest {
 
             //ARRANGE
-            val charactersListDTO = FakeData.getCharactersListDTO()
-            val charactersListEntity = FakeData.getCharacterListEntity()
+            val charactersListDTO = fakeData.getCharactersListDTO()
+            val charactersListEntity = fakeData.getCharacterListEntity()
             coEvery { disneyService.getDisneyCharactersList() } returns charactersListDTO
-            coEvery { characterListEntityMapper.map(charactersListDTO) } returns charactersListEntity
+            coEvery { charactersListDTO.toCharactersListEntity() } returns charactersListEntity
 
             //ACT
             val apiResult = disneyRepositoryImpl.getDisneyCharactersList()
@@ -68,7 +65,7 @@ class DisneyRepositoryImplTest {
             assertTrue(apiResult is APIResult.Success)
             assertEquals(charactersListEntity, (apiResult as APIResult.Success).data)
             coVerify { disneyService.getDisneyCharactersList() }
-            verify { characterListEntityMapper.map(charactersListDTO) }
+            verify { charactersListDTO.toCharactersListEntity() }
 
         }
     }
@@ -98,11 +95,12 @@ class DisneyRepositoryImplTest {
         runTest {
 
             //ARRANGE
-            val characterDetailsDTO = FakeData.getCharacterDetailsDTO()
-            val charactersDTO = FakeData.getCharacterDTO()
-            val characterEntity = FakeData.getCharacterEntity()
+            val characterDetailsDTO = fakeData.getCharacterDetailsDTO()
+            val charactersDTO = fakeData.getCharacterDTO()
+            val characterEntity = fakeData.getCharacterEntity()
+
             coEvery { disneyService.getDisneyCharacterDetails(ID) } returns characterDetailsDTO
-            coEvery { characterEntityMapper.map(charactersDTO) } returns characterEntity
+            coEvery { charactersDTO.toCharacterEntity() } returns characterEntity
 
             //ACT
             val apiResult = disneyRepositoryImpl.getDisneyCharacterDetails(ID)
@@ -111,7 +109,7 @@ class DisneyRepositoryImplTest {
             assertTrue(apiResult is APIResult.Success)
             assertEquals(characterEntity, (apiResult as APIResult.Success).data)
             coVerify { disneyService.getDisneyCharacterDetails(ID) }
-            verify { characterEntityMapper.map(charactersDTO) }
+            verify { charactersDTO.toCharacterEntity()}
 
         }
     }

@@ -6,8 +6,8 @@ import com.assignment.domain.APIResult
 import com.assignment.domain.usecases.GetDisneyCharacterDetailsUseCase
 import com.assignment.presentation.base.BaseViewModel
 import com.assignment.presentation.di.IODispatcher
-import com.assignment.presentation.mappers.CharacterMapper
 import com.assignment.presentation.navigation.NavRoutes
+import com.assignment.presentation.toCharacter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.update
@@ -27,7 +27,6 @@ import javax.inject.Inject
 class CharacterDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getDisneyCharacterDetailsUseCase: GetDisneyCharacterDetailsUseCase,
-    private val mapper: CharacterMapper,
     @IODispatcher private val ioDispatcher: CoroutineDispatcher
 ) : BaseViewModel<CharacterDetailsViewState, CharacterDetailsLoadDataViewIntent, CharactersDetailsSideEffect>() {
 
@@ -47,7 +46,7 @@ class CharacterDetailsViewModel @Inject constructor(
         viewModelScope.launch(ioDispatcher) {
             when (val apiResult = getDisneyCharacterDetailsUseCase(id)) {
                 is APIResult.Success -> {
-                    mapper.map(apiResult.data)
+                    apiResult.data.toCharacter()
                         .also { character ->
                             state.update {
                                 CharacterDetailsViewState.Success(character)
@@ -64,12 +63,9 @@ class CharacterDetailsViewModel @Inject constructor(
         }
     }
 
-    override fun initialState(): CharacterDetailsViewState {
-        return CharacterDetailsViewState.Loading
-    }
+    override fun initialState() = CharacterDetailsViewState.Loading
 
-    override fun sendIntent(viewIntent: CharacterDetailsLoadDataViewIntent) {
+    override fun sendIntent(viewIntent: CharacterDetailsLoadDataViewIntent) =
         getCharacterDetails(viewIntent.id)
-    }
 
 }

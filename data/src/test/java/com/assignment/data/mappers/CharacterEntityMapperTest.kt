@@ -1,29 +1,29 @@
 package com.assignment.data.mappers
 
 import com.assignment.data.fakes.FakeData
+import com.assignment.data.toCharacterEntity
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
 class CharacterEntityMapperTest {
 
-
-    private lateinit var characterEntityMapper: CharacterEntityMapper
+    private lateinit var fakeData: FakeData
 
     @Before
     fun setUp() {
-        characterEntityMapper = CharacterEntityMapper()
+        fakeData = FakeData()
     }
 
     @Test
-    fun `GIVEN character entity mapper with character dto WHEN calls mapToEntity THEN returns character entity as success`() {
+    fun `GIVEN character entity mapper with character dto WHEN calls toCharacterEntity THEN returns character entity as success`() {
 
         //ARRANGE
-        val characterDTO = FakeData.getCharacterDTO()
-        val characterEntity = FakeData.getCharacterEntity()
+        val characterDTO = fakeData.getCharacterDTO()
+        val characterEntity = fakeData.getCharacterEntity()
 
         //ACT
-        val result = characterEntityMapper.map(characterDTO)
+        val result = characterDTO.toCharacterEntity()
 
         //ASSERT
         assertEquals(characterEntity, result)

@@ -1,6 +1,5 @@
 package com.assignment.presentation.features.detailsscreen
 
-import com.assignment.domain.APIResult
 import com.assignment.presentation.base.ViewState
 import com.assignment.presentation.models.Character
 

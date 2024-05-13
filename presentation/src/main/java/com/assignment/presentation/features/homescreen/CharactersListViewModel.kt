@@ -5,7 +5,7 @@ import com.assignment.domain.APIResult
 import com.assignment.domain.usecases.GetDisneyCharactersListUseCase
 import com.assignment.presentation.base.BaseViewModel
 import com.assignment.presentation.di.IODispatcher
-import com.assignment.presentation.mappers.CharacterListMapper
+import com.assignment.presentation.toCharacterList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.update
@@ -24,7 +24,6 @@ import javax.inject.Inject
 @HiltViewModel
 class CharactersListViewModel @Inject constructor(
     private val getDisneyCharactersListUseCase: GetDisneyCharactersListUseCase,
-    private val mapper: CharacterListMapper,
     @IODispatcher private val ioDispatcher: CoroutineDispatcher
 ) : BaseViewModel<CharacterListViewState, CharacterListViewIntent, NavigateToCharacterDetailsSideEffect>() {
 
@@ -40,9 +39,8 @@ class CharactersListViewModel @Inject constructor(
         viewModelScope.launch(ioDispatcher) {
             when (val apiResult = getDisneyCharactersListUseCase()) {
                 is APIResult.Success -> {
-                    mapper.map(apiResult.data)
-                        .also {characterList->
-
+                    apiResult.data.toCharacterList()
+                        .also { characterList ->
                             state.update {
                                 CharacterListViewState.Success(characterList)
                             }
@@ -51,16 +49,14 @@ class CharactersListViewModel @Inject constructor(
 
                 is APIResult.Error -> {
                     state.update {
-                        CharacterListViewState.Error(apiResult.errorCode,apiResult.errorMessage)
+                        CharacterListViewState.Error(apiResult.errorCode, apiResult.errorMessage)
                     }
                 }
             }
         }
     }
 
-    override fun initialState(): CharacterListViewState {
-        return CharacterListViewState.Loading
-    }
+    override fun initialState()=CharacterListViewState.Loading
 
     override fun sendIntent(viewIntent: CharacterListViewIntent) {
         when (viewIntent) {

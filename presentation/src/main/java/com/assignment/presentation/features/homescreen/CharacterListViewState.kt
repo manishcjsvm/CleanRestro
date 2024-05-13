@@ -1,7 +1,6 @@
 package com.assignment.presentation.features.homescreen
 
 import com.assignment.presentation.base.ViewState
-import com.assignment.presentation.features.detailsscreen.CharacterDetailsViewState
 import com.assignment.presentation.models.CharacterList
 
 sealed class CharacterListViewState : ViewState {

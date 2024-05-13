@@ -5,7 +5,6 @@ import app.cash.turbine.test
 import com.assignment.domain.APIResult
 import com.assignment.domain.usecases.GetDisneyCharacterDetailsUseCase
 import com.assignment.presentation.fakes.FakeData
-import com.assignment.presentation.mappers.CharacterMapper
 import com.assignment.presentation.rules.MainDispatcherRule
 import io.mockk.coEvery
 import io.mockk.junit4.MockKRule
@@ -30,24 +29,22 @@ class CharacterDetailsViewModelTest {
 
     private val getDisneyCharacterDetailsUseCase: GetDisneyCharacterDetailsUseCase = mockk()
 
-
-    private val characterMapper: CharacterMapper = mockk()
-
     private val savedStateHandle: SavedStateHandle = mockk(relaxed = true)
+
+    private lateinit var fakeData: FakeData
 
 
     @Before
     fun setUp() {
-        val characterEntity = FakeData.getCharacterEntity()
-        val character = FakeData.getCharacter()
+        fakeData = FakeData()
+        val characterEntity = fakeData.getCharacterEntity()
         coEvery { savedStateHandle.get<Int>(CHARACTER_ID) } returns ID
-        coEvery { characterMapper.map(characterEntity) } returns character
-        coEvery { getDisneyCharacterDetailsUseCase(1) } returns APIResult.Success(characterEntity)
+        coEvery { getDisneyCharacterDetailsUseCase(ID) } returns APIResult.Success(characterEntity)
 
         characterDetailsViewModel = CharacterDetailsViewModel(
             savedStateHandle,
             getDisneyCharacterDetailsUseCase,
-            characterMapper, testDispatcherRule.getDispatcher()
+            testDispatcherRule.getDispatcher()
         )
     }
 

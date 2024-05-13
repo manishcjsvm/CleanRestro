@@ -3,33 +3,31 @@ package com.assignment.domain.fakes
 import com.assignment.domain.entities.CharacterEntity
 import com.assignment.domain.entities.CharacterListEntity
 
-object FakeData {
+class FakeData {
 
+    fun getCharacterListEntity() = CharacterListEntity(buildList {
+        add(getCharacterEntity())
+    })
 
-    fun getCharacterListEntity(): CharacterListEntity {
-        return CharacterListEntity(buildList {
-            add(getCharacterEntity())
-        })
+    fun getCharacterEntity() = CharacterEntity(
+        id = ID,
+        name = NAME,
+        imageUrl = IMAGE_URL,
+        films = FILMS,
+        tvShows = TV_SHOWS,
+        createdAt = CREATED_AT,
+        updatedAt = UPDATED_AT
+    )
+
+    private companion object {
+        private const val ID = 1
+        private const val CREATED_AT = "2021-04-12T01:31:30.547Z"
+        private val FILMS = buildList { add("Hercules (film)") }
+        private const val IMAGE_URL =
+            "https://static.wikia.nocookie.net/disney/images/d/d3/Vlcsnap-2015-05-06-23h04m15s601.png"
+        private const val NAME = "Achilles"
+        private val TV_SHOWS = buildList { add("Hercules (TV series)") }
+        private const val UPDATED_AT = "2021-12-20T20:39:18.033Z"
     }
 
-    fun getCharacterEntity(): CharacterEntity {
-        return CharacterEntity(
-            id = ID,
-            name = NAME,
-            imageUrl = IMAGE_URL,
-            films = FILMS,
-            tvShows = TV_SHOWS,
-            createdAt = CREATED_AT,
-            updatedAt = UPDATED_AT
-        )
-    }
-
-    private const val ID = 1
-    private const val CREATED_AT = "2021-04-12T01:31:30.547Z"
-    private val FILMS = buildList { add("Hercules (film)") }
-    private const val IMAGE_URL =
-        "https://static.wikia.nocookie.net/disney/images/d/d3/Vlcsnap-2015-05-06-23h04m15s601.png"
-    private const val NAME = "Achilles"
-    private val TV_SHOWS = buildList { add("Hercules (TV series)") }
-    private const val UPDATED_AT = "2021-12-20T20:39:18.033Z"
 }

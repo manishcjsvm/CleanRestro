@@ -1,10 +1,8 @@
 package com.assignment.data.mappers
 
 import com.assignment.data.fakes.FakeData
-import io.mockk.every
+import com.assignment.data.toCharactersListEntity
 import io.mockk.junit4.MockKRule
-import io.mockk.mockk
-import io.mockk.verify
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -14,29 +12,26 @@ class CharacterListEntityMapperTest {
 
     @get:Rule
     val mockkRule = MockKRule(this)
-    private lateinit var characterListEntityMapper: CharacterListEntityMapper
 
-    private val characterEntityMapper: CharacterEntityMapper = mockk()
+
+    private lateinit var fakeData: FakeData
 
     @Before
     fun setUp() {
-        characterListEntityMapper = CharacterListEntityMapper(characterEntityMapper)
+        fakeData = FakeData()
     }
 
     @Test
-    fun `GIVEN mapper with character list dto WHEN calls mapToEntity THEN returns character list entity`() {
+    fun `GIVEN mapper with character list dto WHEN calls toCharactersListEntity THEN returns character list entity`() {
 
         //ARRANGE
-        val charactersListDTO = FakeData.getCharactersListDTO()
-        val characterEntity = FakeData.getCharacterEntity()
-        val characterListEntity = FakeData.getCharacterListEntity()
-        every { characterEntityMapper.map(any()) } returns characterEntity
+        val charactersListDTO = fakeData.getCharactersListDTO()
+        val characterListEntity = fakeData.getCharacterListEntity()
 
         //ACT
-        val result = characterListEntityMapper.map(charactersListDTO)
+        val result = charactersListDTO.toCharactersListEntity()
 
         //ASSERT
         assertEquals(characterListEntity, result)
-        verify { characterEntityMapper.map(any()) }
     }
 }
