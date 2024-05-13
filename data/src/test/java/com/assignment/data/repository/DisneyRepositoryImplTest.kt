@@ -3,15 +3,12 @@ package com.assignment.data.repository
 import com.assignment.common.logger.Logger
 import com.assignment.data.api.DisneyService
 import com.assignment.data.fakes.FakeData
-import com.assignment.data.toCharacterEntity
-import com.assignment.data.toCharactersListEntity
 import com.assignment.domain.APIResult
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.junit4.MockKRule
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -56,7 +53,6 @@ class DisneyRepositoryImplTest {
             val charactersListDTO = fakeData.getCharactersListDTO()
             val charactersListEntity = fakeData.getCharacterListEntity()
             coEvery { disneyService.getDisneyCharactersList() } returns charactersListDTO
-            coEvery { charactersListDTO.toCharactersListEntity() } returns charactersListEntity
 
             //ACT
             val apiResult = disneyRepositoryImpl.getDisneyCharactersList()
@@ -65,7 +61,6 @@ class DisneyRepositoryImplTest {
             assertTrue(apiResult is APIResult.Success)
             assertEquals(charactersListEntity, (apiResult as APIResult.Success).data)
             coVerify { disneyService.getDisneyCharactersList() }
-            verify { charactersListDTO.toCharactersListEntity() }
 
         }
     }
@@ -96,11 +91,9 @@ class DisneyRepositoryImplTest {
 
             //ARRANGE
             val characterDetailsDTO = fakeData.getCharacterDetailsDTO()
-            val charactersDTO = fakeData.getCharacterDTO()
             val characterEntity = fakeData.getCharacterEntity()
 
             coEvery { disneyService.getDisneyCharacterDetails(ID) } returns characterDetailsDTO
-            coEvery { charactersDTO.toCharacterEntity() } returns characterEntity
 
             //ACT
             val apiResult = disneyRepositoryImpl.getDisneyCharacterDetails(ID)
@@ -109,7 +102,6 @@ class DisneyRepositoryImplTest {
             assertTrue(apiResult is APIResult.Success)
             assertEquals(characterEntity, (apiResult as APIResult.Success).data)
             coVerify { disneyService.getDisneyCharacterDetails(ID) }
-            verify { charactersDTO.toCharacterEntity()}
 
         }
     }
