@@ -16,7 +16,7 @@ class CharacterEntityMapperTest {
     }
 
     @Test
-    fun `GIVEN character entity mapper with character dto WHEN calls toCharacterEntity THEN returns character entity as success`() {
+    fun `GIVEN mapper with character dto WHEN calls toCharacterEntity THEN returns character entity as success`() {
 
         //ARRANGE
         val characterDTO = fakeData.getCharacterDTO()

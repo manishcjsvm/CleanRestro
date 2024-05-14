@@ -44,7 +44,7 @@ class DisneyRepositoryImplTest {
     }
 
     @Test
-    fun `GIVEN disney service WHEN calls getCharactersListDTO() THEN returns characters list dto as success`() {
+    fun `GIVEN nothing WHEN calls getDisneyCharactersList() THEN returns characters list dto as success`() {
 
 
         runTest {
@@ -66,7 +66,7 @@ class DisneyRepositoryImplTest {
     }
 
     @Test
-    fun `GIVEN disney service WHEN calls getCharactersListDTO() THEN throws exceptions as error`() {
+    fun `GIVEN nothing WHEN calls getDisneyCharactersList() THEN throws exceptions as error`() {
 
         runTest {
 
@@ -86,7 +86,7 @@ class DisneyRepositoryImplTest {
     }
 
     @Test
-    fun `GIVEN disney service WHEN calls getDisneyCharacterDetails() THEN returns character as success`() {
+    fun `GIVEN character id WHEN calls getDisneyCharacterDetails() THEN returns character as success`() {
         runTest {
 
             //ARRANGE
@@ -107,7 +107,7 @@ class DisneyRepositoryImplTest {
     }
 
     @Test
-    fun `GIVEN disney service WHEN calls getDisneyCharacterDetails() THEN throws exceptions as error`() {
+    fun `GIVEN character id WHEN calls getDisneyCharacterDetails() THEN throws exceptions as error`() {
 
         runTest {
 

@@ -52,13 +52,13 @@ class CharactersListViewModelTest {
     fun `GIVEN intent WHEN call getCharactersList THEN returns success`() {
         runTest {
 
-            charactersListViewModel.run {
+            with(charactersListViewModel)
+            {
                 stateFlow.test {
                     sendIntent(CharacterListViewIntent.LoadData)
                     assertTrue(awaitItem() is CharacterListViewState.Success)
                 }
             }
-
         }
     }
 
@@ -69,7 +69,8 @@ class CharactersListViewModelTest {
             coEvery { getDisneyCharactersListUseCase() } answers {
                 APIResult.Error(STATUS_CODE, ERROR_MESSAGE)
             }
-            charactersListViewModel.run {
+            with(charactersListViewModel)
+            {
                 stateFlow.test {
                     sendIntent(CharacterListViewIntent.LoadData)
                     assertTrue(awaitItem() is CharacterListViewState.Success)
@@ -83,16 +84,13 @@ class CharactersListViewModelTest {
     @Test
     fun `GIVEN intent OnItemClicked WHEN call sendIntent THEN navigates to details screen`() {
         runTest {
-
-
-            charactersListViewModel.run {
-
+            with(charactersListViewModel)
+            {
                 sideEffectFlow.test {
                     sendIntent(CharacterListViewIntent.OnItemClicked(id = ID))
                     assertEquals(awaitItem().id, ID)
                 }
             }
-
         }
     }
 

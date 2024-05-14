@@ -31,7 +31,7 @@ class GetDisneyCharactersListUseCaseTest {
     }
 
     @Test
-    fun `GIVEN disney repository WHEN calls getCharactersList THEN returns characters entity list as success`() {
+    fun `GIVEN nothing WHEN calls getDisneyCharactersListUseCase THEN returns characters entity list as success`() {
 
         runTest {
 
@@ -52,7 +52,7 @@ class GetDisneyCharactersListUseCaseTest {
     }
 
     @Test
-    fun `GIVEN disney repository WHEN calls getCharactersList THEN throws exception as error`() {
+    fun `GIVEN nothing WHEN calls getDisneyCharactersListUseCase THEN throws exception as error`() {
 
         runTest {
 

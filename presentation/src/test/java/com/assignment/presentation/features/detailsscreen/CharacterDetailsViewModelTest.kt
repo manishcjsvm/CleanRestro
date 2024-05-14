@@ -51,13 +51,12 @@ class CharacterDetailsViewModelTest {
     @Test
     fun `GIVEN intent to load data WHEN call sendIntent THEN returns success`() {
         runTest {
-            characterDetailsViewModel.run {
-
-                stateFlow.test {
+            with(characterDetailsViewModel)
+            {
+                characterDetailsViewModel.stateFlow.test {
                     sendIntent(CharacterDetailsLoadDataViewIntent(id = ID))
                     assertTrue(awaitItem() is CharacterDetailsViewState.Success)
                 }
-
             }
         }
 
@@ -70,7 +69,8 @@ class CharacterDetailsViewModelTest {
             coEvery { getDisneyCharacterDetailsUseCase(id = ID) } answers {
                 APIResult.Error(STATUS_CODE, ERROR_MESSAGE)
             }
-            characterDetailsViewModel.run {
+            with(characterDetailsViewModel)
+            {
                 stateFlow.test {
                     sendIntent(CharacterDetailsLoadDataViewIntent(id = ID))
                     assertTrue(awaitItem() is CharacterDetailsViewState.Success)
