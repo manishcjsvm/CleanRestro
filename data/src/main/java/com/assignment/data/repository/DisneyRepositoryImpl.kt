@@ -1,14 +1,10 @@
 package com.assignment.data.repository
 
 import com.assignment.common.logger.Logger
-import com.assignment.data.ErrorConstants
+import com.assignment.data.Utils
 import com.assignment.data.api.DisneyService
-import com.assignment.data.toAPIResult
 import com.assignment.data.toCharacterEntity
 import com.assignment.data.toCharactersListEntity
-import com.assignment.domain.APIResult
-import com.assignment.domain.entities.CharacterEntity
-import com.assignment.domain.entities.CharacterListEntity
 import com.assignment.domain.repository.DisneyRepository
 import javax.inject.Inject
 
@@ -23,28 +19,21 @@ private const val TAG = "DisneyRepositoryImpl==>"
  */
 class DisneyRepositoryImpl @Inject constructor(
     private val disneyService: DisneyService,
-    private val logger: Logger
+    private val logger: Logger,
+    private val utils: Utils,
 ) : DisneyRepository {
 
-    override suspend fun getDisneyCharactersList(): APIResult<CharacterListEntity> {
-        return try {
+    override suspend fun getDisneyCharactersList() =
+        utils.callSafely({
+            disneyService.getDisneyCharactersList()
+        }, {
+            toCharactersListEntity()
+        })
 
-            val result = disneyService.getDisneyCharactersList()
-            APIResult.Success(result.toCharactersListEntity())
+    override suspend fun getDisneyCharacterDetails(id: Int) = utils.callSafely({
+        disneyService.getDisneyCharacterDetails(id)
+    }, {
+        data.toCharacterEntity()
+    })
 
-        } catch (exception: Exception) {
-            logger.error("$TAG ${ErrorConstants.FETCH_CHARACTERS_LIST_ERROR} ${exception.message}")
-            exception.toAPIResult()
-        }
-    }
-
-    override suspend fun getDisneyCharacterDetails(id: Int): APIResult<CharacterEntity> {
-        return try {
-            val result = disneyService.getDisneyCharacterDetails(id)
-            APIResult.Success(result.data.toCharacterEntity())
-        } catch (exception: Exception) {
-            logger.error("$TAG ${ErrorConstants.FETCH_CHARACTER_DETAILS_ERROR} ${exception.message}")
-            exception.toAPIResult()
-        }
-    }
 }

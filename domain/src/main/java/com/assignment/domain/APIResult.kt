@@ -3,7 +3,7 @@ package com.assignment.domain
 /**
  * To be used as a result of api request.
  */
-sealed interface APIResult<out T> {
+sealed class APIResult<out T> {
 
     /**
      * To be used when there will be a success response.
@@ -11,7 +11,7 @@ sealed interface APIResult<out T> {
      * @param data data to be passed.
      *
      */
-    data class Success<T>(val data: T) : APIResult<T>
+    data class Success<T>(val data: T) : APIResult<T>()
 
     /**
      * To be used where there will be error in response.
@@ -19,5 +19,6 @@ sealed interface APIResult<out T> {
      * @param errorCode error code to be passed.
      * @param errorMessage error message to be passed.
      */
-    data class Error(val errorCode: Int, val errorMessage: String) : APIResult<Nothing>
+    data class Error(val errorCode: Int, val errorMessage: String) : APIResult<Nothing>()
+
 }

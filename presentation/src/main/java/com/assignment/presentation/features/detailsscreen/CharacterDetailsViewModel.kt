@@ -19,7 +19,6 @@ import javax.inject.Inject
  *
  * @param savedStateHandle to get the arguments supplied.
  * @param getDisneyCharacterDetailsUseCase use case to get the character details from the server.
- * @param mapper to map the character entity to character model.
  * @param ioDispatcher io dispatcher on which co-routine will run.
  *
  */

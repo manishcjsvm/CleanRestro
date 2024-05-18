@@ -17,7 +17,6 @@ import javax.inject.Inject
  * View model for characters list screen.
  *
  * @param getDisneyCharactersListUseCase use case to get the characters list from the server.
- * @param mapper to map the characters list entity to characters list model.
  * @param ioDispatcher io dispatcher on which co-routine will run.
  *
  */
@@ -36,7 +35,9 @@ class CharactersListViewModel @Inject constructor(
      */
     private fun getCharactersList() {
 
+
         viewModelScope.launch(ioDispatcher) {
+
             when (val apiResult = getDisneyCharactersListUseCase()) {
                 is APIResult.Success -> {
                     apiResult.data.toCharacterList()
@@ -56,7 +57,7 @@ class CharactersListViewModel @Inject constructor(
         }
     }
 
-    override fun initialState()=CharacterListViewState.Loading
+    override fun initialState() = CharacterListViewState.Loading
 
     override fun sendIntent(viewIntent: CharacterListViewIntent) {
         when (viewIntent) {

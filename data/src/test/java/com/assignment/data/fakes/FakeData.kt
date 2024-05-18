@@ -52,6 +52,7 @@ class FakeData {
         private val TV_SHOWS = buildList { add("Hercules (TV series)") }
         private const val UPDATED_AT = "2021-12-20T20:39:18.033Z"
         private const val URL = "https://api.disneyapi.dev/characters/112"
+
     }
 
 }

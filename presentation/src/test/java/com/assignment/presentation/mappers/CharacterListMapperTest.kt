@@ -4,7 +4,6 @@ import com.assignment.presentation.fakes.FakeData
 import com.assignment.presentation.toCharacterList
 import io.mockk.junit4.MockKRule
 import org.junit.Assert.assertEquals
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -14,12 +13,7 @@ class CharacterListMapperTest {
     val mockkRule = MockKRule(this)
 
 
-    private lateinit var fakeData: FakeData
-
-    @Before
-    fun setUp() {
-        fakeData = FakeData()
-    }
+    private val fakeData: FakeData = FakeData()
 
     @Test
     fun `GIVEN mapper with character list entity WHEN calls toCharacterList RETURNS characters list`() {

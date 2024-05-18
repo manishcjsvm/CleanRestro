@@ -24,61 +24,53 @@ class CharacterDetailsViewModelTest {
     @get:Rule
     val testDispatcherRule = MainDispatcherRule()
 
-    private lateinit var characterDetailsViewModel: CharacterDetailsViewModel
 
+    private val getDisneyCharacterDetailsUseCaseMock: GetDisneyCharacterDetailsUseCase = mockk()
 
-    private val getDisneyCharacterDetailsUseCase: GetDisneyCharacterDetailsUseCase = mockk()
+    private val savedStateHandleMock: SavedStateHandle = mockk()
 
-    private val savedStateHandle: SavedStateHandle = mockk(relaxed = true)
-
-    private lateinit var fakeData: FakeData
+    private val fakeData: FakeData = FakeData()
+    private val characterEntity = fakeData.getCharacterEntity()
 
 
     @Before
     fun setUp() {
-        fakeData = FakeData()
-        val characterEntity = fakeData.getCharacterEntity()
-        coEvery { savedStateHandle.get<Int>(CHARACTER_ID) } returns ID
-        coEvery { getDisneyCharacterDetailsUseCase(ID) } returns APIResult.Success(characterEntity)
+        coEvery { savedStateHandleMock.get<Int>(CHARACTER_ID) } returns ID
+    }
 
-        characterDetailsViewModel = CharacterDetailsViewModel(
-            savedStateHandle,
-            getDisneyCharacterDetailsUseCase,
+    @Test
+    fun `GIVEN intent LoadData WHEN call sendIntent THEN returns success view state`() =
+        runTest {
+
+            coEvery { getDisneyCharacterDetailsUseCaseMock(ID) } returns APIResult.Success(
+                characterEntity
+            )
+            val characterDetailsViewModel = CharacterDetailsViewModel(
+                savedStateHandleMock,
+                getDisneyCharacterDetailsUseCaseMock,
+                testDispatcherRule.getDispatcher()
+            )
+            characterDetailsViewModel.stateFlow.test {
+                assertTrue(awaitItem() is CharacterDetailsViewState.Success)
+            }
+        }
+
+    @Test
+    fun `GIVEN intent LoadData WHEN call sendIntent THEN returns error view state`() = runTest {
+
+        coEvery { getDisneyCharacterDetailsUseCaseMock(id = any()) } returns APIResult.Error(
+            STATUS_CODE,
+            ERROR_MESSAGE
+        )
+        val characterDetailsViewModel = CharacterDetailsViewModel(
+            savedStateHandleMock,
+            getDisneyCharacterDetailsUseCaseMock,
             testDispatcherRule.getDispatcher()
         )
-    }
 
-    @Test
-    fun `GIVEN intent to load data WHEN call sendIntent THEN returns success`() {
-        runTest {
-            with(characterDetailsViewModel)
-            {
-                characterDetailsViewModel.stateFlow.test {
-                    sendIntent(CharacterDetailsLoadDataViewIntent(id = ID))
-                    assertTrue(awaitItem() is CharacterDetailsViewState.Success)
-                }
-            }
+        characterDetailsViewModel.stateFlow.test {
+            assertTrue(awaitItem() is CharacterDetailsViewState.Error)
         }
-
-    }
-
-    @Test
-    fun `GIVEN intent to load data WHEN call sendIntent THEN returns error`() {
-        runTest {
-
-            coEvery { getDisneyCharacterDetailsUseCase(id = ID) } answers {
-                APIResult.Error(STATUS_CODE, ERROR_MESSAGE)
-            }
-            with(characterDetailsViewModel)
-            {
-                stateFlow.test {
-                    sendIntent(CharacterDetailsLoadDataViewIntent(id = ID))
-                    assertTrue(awaitItem() is CharacterDetailsViewState.Success)
-                    assertTrue(awaitItem() is CharacterDetailsViewState.Error)
-                }
-            }
-        }
-
     }
 
 

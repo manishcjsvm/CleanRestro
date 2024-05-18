@@ -3,6 +3,7 @@ package com.assignment.data.api
 import com.assignment.data.dto.CharacterDTO
 import com.assignment.data.dto.CharacterDetailsDTO
 import com.assignment.data.dto.CharactersListDTO
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -17,7 +18,7 @@ interface DisneyService {
      * @return [CharactersListDTO] data module object.
      */
     @GET("character")
-    suspend fun getDisneyCharactersList(): CharactersListDTO
+    suspend fun getDisneyCharactersList(): Response<CharactersListDTO>
 
     /**
      * To get the details of the character selected.
@@ -27,5 +28,5 @@ interface DisneyService {
      * @return [CharacterDTO] data module object.
      */
     @GET("character/{id}")
-    suspend fun getDisneyCharacterDetails(@Path("id") id: Int): CharacterDetailsDTO
+    suspend fun getDisneyCharacterDetails(@Path("id") id: Int): Response<CharacterDetailsDTO>
 }
