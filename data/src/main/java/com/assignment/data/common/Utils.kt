@@ -1,7 +1,7 @@
-package com.assignment.data
+package com.assignment.data.common
 
 import com.assignment.common.logger.Logger
-import com.assignment.domain.APIResult
+import com.assignment.domain.common.APIResult
 import retrofit2.Response
 import javax.inject.Inject
 

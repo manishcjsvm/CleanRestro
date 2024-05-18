@@ -2,7 +2,7 @@ package com.assignment.presentation.features.detailsscreen
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.assignment.domain.APIResult
+import com.assignment.domain.common.APIResult
 import com.assignment.domain.usecases.GetDisneyCharacterDetailsUseCase
 import com.assignment.presentation.base.BaseViewModel
 import com.assignment.presentation.di.IODispatcher

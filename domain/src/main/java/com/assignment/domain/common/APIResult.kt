@@ -1,4 +1,4 @@
-package com.assignment.domain
+package com.assignment.domain.common
 
 /**
  * To be used as a result of api request.

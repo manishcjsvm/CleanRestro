@@ -1,6 +1,6 @@
 package com.assignment.domain.usecases
 
-import com.assignment.domain.APIResult
+import com.assignment.domain.common.APIResult
 import com.assignment.domain.fakes.FakeData
 import com.assignment.domain.repository.DisneyRepository
 import io.mockk.coEvery

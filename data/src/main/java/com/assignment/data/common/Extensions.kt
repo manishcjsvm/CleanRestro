@@ -1,8 +1,8 @@
-package com.assignment.data
+package com.assignment.data.common
 
 import com.assignment.data.dto.CharacterDTO
 import com.assignment.data.dto.CharactersListDTO
-import com.assignment.domain.APIResult
+import com.assignment.domain.common.APIResult
 import com.assignment.domain.entities.CharacterEntity
 import com.assignment.domain.entities.CharacterListEntity
 import retrofit2.HttpException

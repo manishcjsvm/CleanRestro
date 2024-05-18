@@ -1,7 +1,7 @@
 package com.assignment.data.mappers
 
+import com.assignment.data.common.toCharactersListEntity
 import com.assignment.data.fakes.FakeData
-import com.assignment.data.toCharactersListEntity
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

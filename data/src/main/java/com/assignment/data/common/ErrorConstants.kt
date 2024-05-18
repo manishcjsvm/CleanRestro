@@ -1,4 +1,4 @@
-package com.assignment.data
+package com.assignment.data.common
 
 
 object ErrorConstants {

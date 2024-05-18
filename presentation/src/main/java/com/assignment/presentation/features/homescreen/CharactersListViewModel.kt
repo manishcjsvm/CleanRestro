@@ -1,7 +1,7 @@
 package com.assignment.presentation.features.homescreen
 
 import androidx.lifecycle.viewModelScope
-import com.assignment.domain.APIResult
+import com.assignment.domain.common.APIResult
 import com.assignment.domain.usecases.GetDisneyCharactersListUseCase
 import com.assignment.presentation.base.BaseViewModel
 import com.assignment.presentation.di.IODispatcher

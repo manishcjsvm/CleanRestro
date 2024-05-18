@@ -1,12 +1,12 @@
 package com.assignment.data.repository
 
 import com.assignment.common.logger.Logger
-import com.assignment.data.Utils
 import com.assignment.data.api.DisneyService
+import com.assignment.data.common.Utils
 import com.assignment.data.dto.CharacterDetailsDTO
 import com.assignment.data.dto.CharactersListDTO
 import com.assignment.data.fakes.FakeData
-import com.assignment.domain.APIResult
+import com.assignment.domain.common.APIResult
 import io.mockk.coEvery
 import io.mockk.junit4.MockKRule
 import io.mockk.justRun

@@ -2,7 +2,7 @@ package com.assignment.presentation.features.detailsscreen
 
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
-import com.assignment.domain.APIResult
+import com.assignment.domain.common.APIResult
 import com.assignment.domain.usecases.GetDisneyCharacterDetailsUseCase
 import com.assignment.presentation.fakes.FakeData
 import com.assignment.presentation.rules.MainDispatcherRule

@@ -15,7 +15,6 @@ android {
         targetSdk = Integer.parseInt(libs.versions.targetSDK.get())
         versionCode = Integer.parseInt(libs.versions.versionCode.get())
         versionName = libs.versions.versionName.get()
-
     }
 
     buildTypes {
@@ -32,7 +31,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = libs.versions.jvmTarget.get()
     }
 
     packaging {

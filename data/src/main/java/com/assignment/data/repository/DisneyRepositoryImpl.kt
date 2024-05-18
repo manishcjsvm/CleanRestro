@@ -1,10 +1,10 @@
 package com.assignment.data.repository
 
 import com.assignment.common.logger.Logger
-import com.assignment.data.Utils
 import com.assignment.data.api.DisneyService
-import com.assignment.data.toCharacterEntity
-import com.assignment.data.toCharactersListEntity
+import com.assignment.data.common.Utils
+import com.assignment.data.common.toCharacterEntity
+import com.assignment.data.common.toCharactersListEntity
 import com.assignment.domain.repository.DisneyRepository
 import javax.inject.Inject
 
