@@ -39,7 +39,7 @@ class CharacterDetailsViewModelTest {
     }
 
     @Test
-    fun `GIVEN intent LoadData WHEN call sendIntent THEN returns success view state`() =
+    fun `GIVEN intent LoadData WHEN calls sendIntent THEN returns success view state`() =
         runTest {
 
             coEvery { getDisneyCharacterDetailsUseCaseMock(ID) } returns APIResult.Success(
@@ -56,7 +56,7 @@ class CharacterDetailsViewModelTest {
         }
 
     @Test
-    fun `GIVEN intent LoadData WHEN call sendIntent THEN returns error view state`() = runTest {
+    fun `GIVEN intent LoadData WHEN calls sendIntent THEN returns error view state`() = runTest {
 
         coEvery { getDisneyCharacterDetailsUseCaseMock(id = any()) } returns APIResult.Error(
             STATUS_CODE,

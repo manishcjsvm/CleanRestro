@@ -8,8 +8,6 @@ import com.assignment.data.common.toCharactersListEntity
 import com.assignment.domain.repository.DisneyRepository
 import javax.inject.Inject
 
-private const val TAG = "DisneyRepositoryImpl==>"
-
 /**
  * Concrete implementation of [DisneyRepository].
  *
@@ -20,20 +18,14 @@ private const val TAG = "DisneyRepositoryImpl==>"
 class DisneyRepositoryImpl @Inject constructor(
     private val disneyService: DisneyService,
     private val logger: Logger,
-    private val utils: Utils,
+    private val utils: Utils
 ) : DisneyRepository {
 
     override suspend fun getDisneyCharactersList() =
-        utils.callSafely({
-            disneyService.getDisneyCharactersList()
-        }, {
-            toCharactersListEntity()
-        })
+        utils.callSafely({ disneyService.getDisneyCharactersList() }, { toCharactersListEntity() })
 
-    override suspend fun getDisneyCharacterDetails(id: Int) = utils.callSafely({
-        disneyService.getDisneyCharacterDetails(id)
-    }, {
-        data.toCharacterEntity()
-    })
+    override suspend fun getDisneyCharacterDetails(id: Int) =
+        utils.callSafely({ disneyService.getDisneyCharacterDetails(id) },
+            { data.toCharacterEntity() })
 
 }

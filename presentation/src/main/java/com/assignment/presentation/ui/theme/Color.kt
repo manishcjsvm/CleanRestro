@@ -1,4 +1,4 @@
-package com.assignment.cleanrestro.ui.theme
+package com.assignment.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

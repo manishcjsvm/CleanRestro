@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.navigation.compose.rememberNavController
-import com.assignment.cleanrestro.ui.theme.CleanRestroTheme
 import com.assignment.presentation.navigation.NavGraph
+import com.assignment.presentation.ui.theme.CleanRestroTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

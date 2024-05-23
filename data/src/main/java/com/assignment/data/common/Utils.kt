@@ -7,16 +7,15 @@ import javax.inject.Inject
 
 private const val TAG = "Utils==>"
 
-
 class Utils @Inject constructor(private val logger: Logger) {
 
     /**
      * To place api calls safely.
      *
-     * @param call suspend function to execute
+     * @param call suspend function to execute.
      * @param transform to call extension function on [T], could be used to map object from data to domain model.
      *
-     * @return [APIResult] which is the transformed result from T->R
+     * @return [APIResult] which is the transformed result from T->R.
      */
     suspend fun <T, R> callSafely(
         call: suspend () -> Response<T>,

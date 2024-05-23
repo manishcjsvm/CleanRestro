@@ -29,7 +29,7 @@ class CharactersListViewModelTest {
 
 
     @Test
-    fun `GIVEN intent LoadData WHEN call getCharactersList returns success view state`() = runTest {
+    fun `GIVEN intent LoadData WHEN calls getCharactersList returns success view state`() = runTest {
         coEvery { getDisneyCharactersListUseCaseMock() } returns APIResult.Success(fakeData.getCharactersListEntity())
 
         val charactersListViewModel = CharactersListViewModel(
@@ -44,7 +44,7 @@ class CharactersListViewModelTest {
 
 
     @Test
-    fun `GIVEN intent LoadData WHEN call sendIntent THEN returns error view state`() = runTest {
+    fun `GIVEN intent LoadData WHEN calls sendIntent THEN returns error view state`() = runTest {
 
         coEvery { getDisneyCharactersListUseCaseMock() } returns APIResult.Error(
             STATUS_CODE,
@@ -59,7 +59,7 @@ class CharactersListViewModelTest {
     }
 
     @Test
-    fun `GIVEN intent OnItemClicked WHEN call sendIntent THEN navigates to details screen with correct id`() =
+    fun `GIVEN intent OnItemClicked WHEN calls sendIntent THEN navigates to details screen with correct id`() =
         runTest {
             coEvery { getDisneyCharactersListUseCaseMock() } returns APIResult.Success(fakeData.getCharactersListEntity())
 
