@@ -9,8 +9,8 @@ import com.assignment.presentation.di.IODispatcher
 import com.assignment.presentation.toCharacterList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,27 +34,17 @@ class CharactersListViewModel @Inject constructor(
         ViewModelDelegate<CharacterListViewState, CharacterListViewIntent, NavigateToCharacterDetailsSideEffect>(
             CharacterListViewState.Loading
         ) { viewIntent ->
-            when (viewIntent) {
-                is CharacterListViewIntent.LoadData -> {
-                    getCharactersList()
-                }
-
-                is CharacterListViewIntent.OnItemClicked -> {
-                    viewModelScope.launch {
-                        sideEffectFlow.emit(NavigateToCharacterDetailsSideEffect(viewIntent.id))
-                    }
-                }
-            }
+            processIntent(viewIntent)
         }
 
     init {
         sendIntent(CharacterListViewIntent.LoadData)
     }
 
-    val stateFlow: MutableStateFlow<CharacterListViewState>
+    val stateFlow: StateFlow<CharacterListViewState>
         get() = charactersListViewModelDelegate.stateFlow
 
-    val sideEffectFlow: MutableSharedFlow<NavigateToCharacterDetailsSideEffect>
+    val sideEffectFlow: SharedFlow<NavigateToCharacterDetailsSideEffect>
         get() = charactersListViewModelDelegate.sideEffectFlow
 
 
@@ -69,14 +59,14 @@ class CharactersListViewModel @Inject constructor(
             when (val apiResult = getDisneyCharactersListUseCase()) {
                 is APIResult.Success -> {
                     apiResult.data.toCharacterList().also { characterList ->
-                        stateFlow.update {
+                        charactersListViewModelDelegate.stateFlow.update {
                             CharacterListViewState.Success(characterList)
                         }
                     }
                 }
 
                 is APIResult.Error -> {
-                    stateFlow.update {
+                    charactersListViewModelDelegate.stateFlow.update {
                         CharacterListViewState.Error(apiResult.errorCode, apiResult.errorMessage)
                     }
                 }
@@ -84,6 +74,33 @@ class CharactersListViewModel @Inject constructor(
         }
     }
 
+
+    /**
+     * To process the intent received from the delegate.
+     *
+     * @param viewIntent [CharacterListViewIntent]
+     */
+    private fun processIntent(viewIntent: CharacterListViewIntent) {
+        viewModelScope.launch {
+            when (viewIntent) {
+                is CharacterListViewIntent.LoadData -> {
+                    getCharactersList()
+                }
+
+                is CharacterListViewIntent.OnItemClicked -> {
+                    viewModelScope.launch {
+
+                        charactersListViewModelDelegate.sideEffectFlow.emit(
+                            NavigateToCharacterDetailsSideEffect(
+                                viewIntent.id
+                            )
+                        )
+                    }
+                }
+
+            }
+        }
+    }
 
     /**
      * To send the view intent to the delegate.

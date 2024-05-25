@@ -11,7 +11,7 @@ import com.assignment.presentation.navigation.NavRoutes
 import com.assignment.presentation.toCharacter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -46,7 +46,7 @@ class CharacterDetailsViewModel @Inject constructor(
         sendIntent(CharacterDetailsLoadDataViewIntent(id ?: 0))
     }
 
-    val stateFlow: MutableStateFlow<CharacterDetailsViewState>
+    val stateFlow: StateFlow<CharacterDetailsViewState>
         get() = characterDetailsViewModelDelegate.stateFlow
 
 
@@ -62,14 +62,14 @@ class CharacterDetailsViewModel @Inject constructor(
                 is APIResult.Success -> {
                     apiResult.data.toCharacter()
                         .also { character ->
-                            stateFlow.update {
+                            characterDetailsViewModelDelegate.stateFlow.update {
                                 CharacterDetailsViewState.Success(character)
                             }
                         }
                 }
 
                 is APIResult.Error -> {
-                    stateFlow.update {
+                    characterDetailsViewModelDelegate.stateFlow.update {
                         CharacterDetailsViewState.Error(apiResult.errorCode, apiResult.errorMessage)
                     }
                 }
