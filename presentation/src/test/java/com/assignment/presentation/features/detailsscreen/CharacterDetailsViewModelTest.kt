@@ -9,6 +9,8 @@ import com.assignment.presentation.rules.MainDispatcherRule
 import io.mockk.coEvery
 import io.mockk.junit4.MockKRule
 import io.mockk.mockk
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -42,8 +44,10 @@ class CharacterDetailsViewModelTest {
     fun `GIVEN intent LoadData WHEN calls sendIntent THEN returns success view state`() =
         runTest {
 
-            coEvery { getDisneyCharacterDetailsUseCaseMock(ID) } returns APIResult.Success(
-                characterEntity
+            coEvery { getDisneyCharacterDetailsUseCaseMock(ID) } returns flowOf(
+                APIResult.Success(
+                    characterEntity
+                )
             )
             val characterDetailsViewModel = CharacterDetailsViewModel(
                 savedStateHandleMock,
@@ -58,9 +62,11 @@ class CharacterDetailsViewModelTest {
     @Test
     fun `GIVEN intent LoadData WHEN calls sendIntent THEN returns error view state`() = runTest {
 
-        coEvery { getDisneyCharacterDetailsUseCaseMock(id = any()) } returns APIResult.Error(
-            STATUS_CODE,
-            ERROR_MESSAGE
+        coEvery { getDisneyCharacterDetailsUseCaseMock(id = any()) } returns flowOf(
+            APIResult.Error(
+                STATUS_CODE,
+                ERROR_MESSAGE
+            )
         )
         val characterDetailsViewModel = CharacterDetailsViewModel(
             savedStateHandleMock,

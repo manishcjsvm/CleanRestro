@@ -10,6 +10,7 @@ import com.assignment.presentation.navigation.NavRoutes
 import com.assignment.presentation.toCharacter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -43,22 +44,30 @@ class CharacterDetailsViewModel @Inject constructor(
     private fun getCharacterDetails(id: Int) {
 
         viewModelScope.launch(ioDispatcher) {
-            when (val apiResult = getDisneyCharacterDetailsUseCase(id)) {
-                is APIResult.Success -> {
-                    apiResult.data.toCharacter()
-                        .also { character ->
-                            state.update {
-                                CharacterDetailsViewState.Success(character)
-                            }
-                        }
-                }
 
-                is APIResult.Error -> {
-                    state.update {
-                        CharacterDetailsViewState.Error(apiResult.errorCode, apiResult.errorMessage)
+            getDisneyCharacterDetailsUseCase(id).collect()
+            { apiResult ->
+                when (apiResult) {
+                    is APIResult.Success -> {
+                        apiResult.data.toCharacter()
+                            .also { character ->
+                                state.update {
+                                    CharacterDetailsViewState.Success(character)
+                                }
+                            }
+                    }
+
+                    is APIResult.Error -> {
+                        state.update {
+                            CharacterDetailsViewState.Error(
+                                apiResult.errorCode,
+                                apiResult.errorMessage
+                            )
+                        }
                     }
                 }
             }
+
         }
     }
 

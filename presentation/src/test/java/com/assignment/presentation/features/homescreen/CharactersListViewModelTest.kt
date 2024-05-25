@@ -8,6 +8,7 @@ import com.assignment.presentation.rules.MainDispatcherRule
 import io.mockk.coEvery
 import io.mockk.junit4.MockKRule
 import io.mockk.mockk
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -29,26 +30,29 @@ class CharactersListViewModelTest {
 
 
     @Test
-    fun `GIVEN intent LoadData WHEN calls getCharactersList returns success view state`() = runTest {
-        coEvery { getDisneyCharactersListUseCaseMock() } returns APIResult.Success(fakeData.getCharactersListEntity())
+    fun `GIVEN intent LoadData WHEN calls getCharactersList returns success view state`() =
+        runTest {
+            coEvery { getDisneyCharactersListUseCaseMock() } returns flowOf(APIResult.Success(fakeData.getCharactersListEntity()))
 
-        val charactersListViewModel = CharactersListViewModel(
-            getDisneyCharactersListUseCaseMock, testDispatcherRule.getDispatcher()
-        )
+            val charactersListViewModel = CharactersListViewModel(
+                getDisneyCharactersListUseCaseMock, testDispatcherRule.getDispatcher()
+            )
 
-        charactersListViewModel.stateFlow.test {
-            assertTrue(awaitItem() is CharacterListViewState.Success)
+            charactersListViewModel.stateFlow.test {
+                assertTrue(awaitItem() is CharacterListViewState.Success)
 
+            }
         }
-    }
 
 
     @Test
     fun `GIVEN intent LoadData WHEN calls sendIntent THEN returns error view state`() = runTest {
 
-        coEvery { getDisneyCharactersListUseCaseMock() } returns APIResult.Error(
-            STATUS_CODE,
-            ERROR_MESSAGE
+        coEvery { getDisneyCharactersListUseCaseMock() } returns flowOf(
+            APIResult.Error(
+                STATUS_CODE,
+                ERROR_MESSAGE
+            )
         )
         val charactersListViewModel = CharactersListViewModel(
             getDisneyCharactersListUseCaseMock, testDispatcherRule.getDispatcher()
@@ -61,7 +65,11 @@ class CharactersListViewModelTest {
     @Test
     fun `GIVEN intent OnItemClicked WHEN calls sendIntent THEN navigates to details screen with correct id`() =
         runTest {
-            coEvery { getDisneyCharactersListUseCaseMock() } returns APIResult.Success(fakeData.getCharactersListEntity())
+            coEvery { getDisneyCharactersListUseCaseMock() } returns flowOf(
+                APIResult.Success(
+                    fakeData.getCharactersListEntity()
+                )
+            )
 
             val charactersListViewModel = CharactersListViewModel(
                 getDisneyCharactersListUseCaseMock, testDispatcherRule.getDispatcher()

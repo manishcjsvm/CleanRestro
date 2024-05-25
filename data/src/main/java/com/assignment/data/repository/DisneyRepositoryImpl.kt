@@ -6,6 +6,7 @@ import com.assignment.data.common.Utils
 import com.assignment.data.common.toCharacterEntity
 import com.assignment.data.common.toCharactersListEntity
 import com.assignment.domain.repository.DisneyRepository
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 /**
@@ -21,11 +22,16 @@ class DisneyRepositoryImpl @Inject constructor(
     private val utils: Utils
 ) : DisneyRepository {
 
-    override suspend fun getDisneyCharactersList() =
-        utils.callSafely({ disneyService.getDisneyCharactersList() }, { toCharactersListEntity() })
+    override suspend fun getDisneyCharactersList() = flow {
+        val result = utils.callSafely({ disneyService.getDisneyCharactersList() }, {
+            toCharactersListEntity()
+        })
+        emit(result)
+    }
 
-    override suspend fun getDisneyCharacterDetails(id: Int) =
-        utils.callSafely({ disneyService.getDisneyCharacterDetails(id) },
+    override suspend fun getDisneyCharacterDetails(id: Int) = flow {
+        val result = utils.callSafely({ disneyService.getDisneyCharacterDetails(id) },
             { data.toCharacterEntity() })
-
+        emit(result)
+    }
 }

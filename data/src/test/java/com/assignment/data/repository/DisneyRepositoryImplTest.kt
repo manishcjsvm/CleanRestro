@@ -11,6 +11,7 @@ import io.mockk.coEvery
 import io.mockk.junit4.MockKRule
 import io.mockk.justRun
 import io.mockk.mockk
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -65,8 +66,9 @@ class DisneyRepositoryImplTest {
             //ACT
             val apiResult = disneyRepositoryImpl.getDisneyCharactersList()
 
+
             //ASSERT
-            assertTrue(apiResult is APIResult.Success)
+            assertTrue(apiResult.first() is APIResult.Success)
         }
 
     @Test
@@ -82,7 +84,7 @@ class DisneyRepositoryImplTest {
             val apiResult = disneyRepositoryImpl.getDisneyCharactersList()
 
             //ASSERT
-            assertTrue(apiResult is APIResult.Error)
+            assertTrue(apiResult.first() is APIResult.Error)
         }
 
 
@@ -99,7 +101,7 @@ class DisneyRepositoryImplTest {
             val result = disneyRepositoryImpl.getDisneyCharactersList()
 
             //ASSERT
-            assertTrue(result is APIResult.Error)
+            assertTrue(result.first() is APIResult.Error)
         }
 
 
@@ -118,7 +120,7 @@ class DisneyRepositoryImplTest {
             val apiResult = disneyRepositoryImpl.getDisneyCharacterDetails(ID)
 
             //ASSERT
-            assertTrue(apiResult is APIResult.Success)
+            assertTrue(apiResult.first() is APIResult.Success)
 
 
         }
@@ -137,7 +139,7 @@ class DisneyRepositoryImplTest {
             val apiResult = disneyRepositoryImpl.getDisneyCharacterDetails(ID)
 
             //ASSERT
-            assertTrue(apiResult is APIResult.Error)
+            assertTrue(apiResult.first() is APIResult.Error)
 
         }
 
@@ -154,7 +156,7 @@ class DisneyRepositoryImplTest {
             val result = disneyRepositoryImpl.getDisneyCharacterDetails(ID)
 
             //ASSERT
-            assertTrue(result is APIResult.Error)
+            assertTrue(result.first() is APIResult.Error)
         }
 
 

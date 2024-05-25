@@ -7,6 +7,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.junit4.MockKRule
 import io.mockk.mockk
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
@@ -36,8 +37,10 @@ class GetDisneyCharacterDetailsUseCaseTest {
 
             // ARRANGE
             val characterEntity = fakeData.getCharacterEntity()
-            coEvery { disneyRepositoryMock.getDisneyCharacterDetails(ID) } returns APIResult.Success(
-                characterEntity
+            coEvery { disneyRepositoryMock.getDisneyCharacterDetails(ID) } returns flowOf(
+                APIResult.Success(
+                    characterEntity
+                )
             )
 
             //ACT
