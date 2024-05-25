@@ -3,6 +3,8 @@ package com.assignment.presentation.base
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 
 /**
  * A base abstract class with common functionality that deals with MVI architecture.
@@ -19,16 +21,16 @@ abstract class BaseViewModel<VS : ViewState, VI : ViewIntent, SE : SideEffect> :
         initialState()
     }
 
-    // Stateflow which could be observed for the future view states
     protected val state: MutableStateFlow<VS> = MutableStateFlow(initialState)
 
-    val stateFlow: MutableStateFlow<VS>
+    // Stateflow which could be observed for the future view states
+    val stateFlow: StateFlow<VS>
         get() = state
 
-    // SharedFlow which could be observed for one time events
     protected val sideEffect: MutableSharedFlow<SE> = MutableSharedFlow()
 
-    val sideEffectFlow: MutableSharedFlow<SE>
+    // SharedFlow which could be observed for one time events
+    val sideEffectFlow: SharedFlow<SE>
         get() = sideEffect
 
     /**
